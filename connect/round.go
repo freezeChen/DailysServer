@@ -4,10 +4,10 @@
    @File : round
    @Software: KingMaxWMS_APP_API
 */
-package server
+package connect
 
 import (
-	"24on/mail_srv/pkg/timer"
+	"DailysServer/pkg/timer"
 )
 
 const (

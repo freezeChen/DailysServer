@@ -4,7 +4,7 @@
    @File : bucket
    @Software: DailyServer
 */
-package server
+package connect
 
 import "sync"
 

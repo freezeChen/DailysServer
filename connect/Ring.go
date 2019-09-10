@@ -1,6 +1,7 @@
-package server
+package connect
 
 import (
+	"DailysServer/proto"
 	"errors"
 )
 
@@ -13,17 +14,17 @@ type Ring struct {
 	rp   uint64
 	wp   uint64
 	num  uint64
-	data []Proto
+	data []proto.Proto
 }
 
 func NewRing() (r *Ring) {
 	r = new(Ring)
 	r.num = 7
-	r.data = make([]Proto, 8)
+	r.data = make([]proto.Proto, 8)
 	return
 }
 
-func (r *Ring) Get() (msg *Proto, err error) {
+func (r *Ring) Get() (msg *proto.Proto, err error) {
 	if r.rp == r.wp {
 		return nil, ErrRingEmpty
 	}
@@ -36,7 +37,7 @@ func (r *Ring) GetAdv() {
 	r.rp++
 }
 
-func (r *Ring) Set() (msg *Proto, err error) {
+func (r *Ring) Set() (msg *proto.Proto, err error) {
 	if r.wp-r.rp >= r.num {
 		return nil, ErrRingFull
 	}

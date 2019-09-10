@@ -1,19 +1,14 @@
-package server
+package connect
 
 import (
+	"DailysServer/pkg/timer"
+	"DailysServer/proto"
 	"context"
-	"errors"
 	"fmt"
+	"github.com/freezeChen/studio-library/zlog"
 	"math"
 	"net/http"
-	"strconv"
 	"time"
-
-	timer2 "24on/mail_srv/pkg/timer"
-	//tokens "gitee.com/bethink1501/24on-library/token"
-	"gitee.com/bethink1501/24on-library/zlog"
-	"github.com/gin-gonic/gin"
-	"golang.org/x/oauth2/jwt"
 
 	"github.com/gorilla/websocket"
 )
@@ -28,7 +23,7 @@ var upgrader = websocket.Upgrader{
 	WriteBufferSize: 2048,
 }
 
-func InitWebSocket(srv *server, w http.ResponseWriter, r *http.Request) {
+func InitWebSocket(srv *Server, w http.ResponseWriter, r *http.Request) {
 	conn, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
 		zlog.Errorf(err.Error())
@@ -40,19 +35,19 @@ func InitWebSocket(srv *server, w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func ServeWebSocket(srv *server, ws *websocket.Conn, rn int) {
+func ServeWebSocket(srv *Server, ws *websocket.Conn, rn int) {
 	var (
 		err      error
 		ch       = NewChannel()
 		key      string
-		msg      *Proto
-		timer    = srv.round.Timer(rn)
-		timeData *timer2.TimerData
+		msg      *proto.Proto
+		tim      = srv.round.Timer(rn)
+		timeData *timer.TimerData
 	)
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	timeData = timer.Add(_HandshakeTimeout, func() {
+	timeData = tim.Add(_HandshakeTimeout, func() {
 		zlog.Debug("timeout")
 		ws.Close()
 	})
@@ -71,12 +66,12 @@ func ServeWebSocket(srv *server, ws *websocket.Conn, rn int) {
 		zlog.Error(err.Error())
 		ch.Close()
 		ws.Close()
-		timer.Del(timeData)
+		tim.Del(timeData)
 		return
 	}
 
 	timeData.Key = ch.Id
-	timer.Set(timeData, 60*time.Second)
+	tim.Set(timeData, 60*time.Second)
 
 	go srv.dispatchWebsocket(ws, ch)
 
@@ -89,7 +84,7 @@ func ServeWebSocket(srv *server, ws *websocket.Conn, rn int) {
 			break
 		}
 		if msg.Opr == OpHeartbeat {
-			timer.Set(timeData, _HeartBeat)
+			tim.Set(timeData, _HeartBeat)
 			msg.Opr = OpHeartbeatReply
 			msg.Body = nil
 			zlog.Debug("ping")
@@ -101,12 +96,12 @@ func ServeWebSocket(srv *server, ws *websocket.Conn, rn int) {
 	zlog.Debug("close2" + err.Error())
 	ch.Close()
 	ws.Close()
-	timer.Del(timeData)
+	tim.Del(timeData)
 	srv.bucket.Offline(key)
 
 }
 
-func (s *server) dispatchWebsocket(ws *websocket.Conn, ch *Channel) {
+func (s *Server) dispatchWebsocket(ws *websocket.Conn, ch *Channel) {
 
 	var err error
 	for {
@@ -141,7 +136,7 @@ field1:
 
 }
 
-func (s *server) AuthWebSocket(ctx context.Context, ws *websocket.Conn, msg *Proto, ch *Channel) (key string, err error) {
+func (s *Server) AuthWebSocket(ctx context.Context, ws *websocket.Conn, msg *proto.Proto, ch *Channel) (key string, err error) {
 	fmt.Println("auth")
 	err = msg.ReadWebSocket(ws)
 	if err != nil {
@@ -168,7 +163,7 @@ func (s *server) AuthWebSocket(ctx context.Context, ws *websocket.Conn, msg *Pro
 	*/
 	//校验token
 
-	gin.
+
 
 	return
 }

@@ -4,14 +4,17 @@
    @File : channel
    @Software: KingMaxWMS_APP_API
 */
-package server
+package connect
 
-import "bufio"
+import (
+	"DailysServer/proto"
+	"bufio"
+)
 
 type Channel struct {
 	Id     string
 	Ring   *Ring
-	msg    chan *Proto
+	msg    chan *proto.Proto
 	Writer bufio.Writer
 	Reader bufio.Reader
 }
@@ -19,11 +22,11 @@ type Channel struct {
 func NewChannel() *Channel {
 	return &Channel{
 		Ring: NewRing(),
-		msg:  make(chan *Proto,1024),
+		msg:  make(chan *proto.Proto,1024),
 	}
 }
 
-func (c *Channel) Push(msg *Proto) {
+func (c *Channel) Push(msg *proto.Proto) {
 	select {
 	case c.msg <- msg:
 	default:
@@ -32,7 +35,7 @@ func (c *Channel) Push(msg *Proto) {
 	return
 }
 
-func (c *Channel) Ready() *Proto {
+func (c *Channel) Ready() *proto.Proto {
 	return <-c.msg
 }
 

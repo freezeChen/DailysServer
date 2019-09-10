@@ -1,16 +1,19 @@
 /*
    @Time : 2019-07-25 14:32
    @Author : frozenChen
-   @File : server
+   @File : Server
    @Software: KingMaxWMS_APP_API
 */
-package server
+package connect
 
 import (
+	"DailysServer/connect/conf"
+	"DailysServer/proto"
+	"github.com/micro/go-micro"
+	"github.com/micro/go-micro/api/handler"
 	"net/http"
 	"time"
 
-	"24on/mail_srv/handler"
 
 	"github.com/freezeChen/studio-library/zlog"
 	"github.com/micro/go-micro/web"
@@ -21,23 +24,24 @@ const (
 	_HeartBeat        = 8 * time.Minute
 )
 
-type server struct {
-	h      *handler.Handler
-	tokens *tokens.TokenManager
+type Server struct {
+
+
 	bucket *Bucket
 	round  *Round
 }
 
-func NewServer(handler *handler.Handler) *server {
-	return &server{
-		h:      handler,
-		tokens: tokens.Init(),
+func NewServer(c *conf.Config) *Server {
+	return &Server{
+		h:      new(handler.Handler),
 		bucket: NewBucket(),
 		round:  NewRound(),
 	}
 }
 
-func (s *server) Start() {
+func (s *Server) Start() {
+	micro.NewService()
+
 	service := web.NewService(
 		web.Name("vip.frozen.api.mail"),
 		web.RegisterTTL(75*time.Second),
@@ -62,17 +66,8 @@ func (s *server) Start() {
 	}()
 }
 
-func (s *server) getCount(uid int64) int64 {
-
-	counts, err := s.h.GetMailCounts(uid)
-	if err != nil {
-		return 0
-	}
-	return counts
-}
-
-func (s *server) batchPush(ids []string, notice []byte) {
-	var msg = new(Proto)
+func (s *Server) batchPush(ids []string, notice []byte) {
+	var msg = new(proto.Proto)
 	msg.Opr = OpSendMsg
 
 	msg.Body = notice
@@ -86,9 +81,9 @@ func (s *server) batchPush(ids []string, notice []byte) {
 	}
 }
 
-func (s *server) push(id string, notice []byte) {
+func (s *Server) push(id string, notice []byte) {
 	if ch := s.bucket.Get(id); ch != nil {
-		var msg = new(Proto)
+		var msg = new(proto.Proto)
 		msg.Opr = OpSendMsg
 		msg.Body = notice
 		ch.Push(msg)

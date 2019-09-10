@@ -4,17 +4,16 @@
    @File : server_test
    @Software: KingMaxWMS_APP_API
 */
-package server
+package connect
 
 import (
 	"fmt"
+	"github.com/freezeChen/studio-library/zlog"
 	"net/http"
 	"testing"
 	"time"
 
-	"24on/account_api/conf"
-	"gitee.com/bethink1501/24on-library/tokens"
-	"gitee.com/bethink1501/24on-library/zlog"
+
 )
 
 func TestWebSocket(t *testing.T) {
