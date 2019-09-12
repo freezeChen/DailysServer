@@ -1,17 +1,19 @@
 package grpc
 
 import (
+	"time"
+
 	"DailysServer/connect"
 	"DailysServer/connect/conf"
+
 	"github.com/micro/go-micro"
-	"time"
 )
 
 type server struct {
-	srv *connect.Server
+	connectSrv *connect.Server
 }
 
-func New(c *conf.RpcServer, s *connect.Server) *server {
+func New(c *conf.RpcServer, s *connect.Server) {
 	service := micro.NewService(
 		micro.Name(c.Name),
 		micro.RegisterTTL(time.Duration(c.TTL)*time.Second),
@@ -19,13 +21,19 @@ func New(c *conf.RpcServer, s *connect.Server) *server {
 	)
 	service.Init()
 
-	go func() {
-		if err := service.Run(); err != nil {
-			panic(err)
-		}
-	}()
+	//server{}
 
-	return &server{
-		srv: s,
+
+	if err := service.Run(); err != nil {
+		panic(err)
 	}
+
+	//go func() {
+	//	if err := service.Run(); err != nil {
+	//		panic(err)
+	//	}
+	//}()
+	//return &server{
+	//	connectSrv: s,
+	//}
 }

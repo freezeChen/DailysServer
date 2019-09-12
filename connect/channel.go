@@ -7,8 +7,9 @@
 package connect
 
 import (
-	"DailysServer/proto"
 	"bufio"
+
+	"DailysServer/proto"
 )
 
 type Channel struct {
@@ -40,9 +41,9 @@ func (c *Channel) Ready() *proto.Proto {
 }
 
 func (c *Channel) Signal() {
-	c.msg <- ProtoReady
+	c.msg <- proto.ProtoReady
 }
 
 func (c *Channel) Close() {
-	c.msg <- ProtoFinish
+	c.msg <- proto.ProtoFinish
 }

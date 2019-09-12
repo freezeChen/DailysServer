@@ -4,10 +4,9 @@
    @File : proto
    @Software: KingMaxWMS_APP_API
 */
-package connect
+package proto
 
 import (
-	"DailysServer/proto"
 	"encoding/binary"
 	"errors"
 	"fmt"
@@ -85,15 +84,15 @@ const (
 )
 
 var (
-	ProtoFinish = &proto.Proto{Opr: OpProtoFinish}
-	ProtoReady  = &proto.Proto{Opr: OpProtoReady}
+	ProtoFinish = &Proto{Opr: OpProtoFinish}
+	ProtoReady  = &Proto{Opr: OpProtoReady}
 
 	ErrMsgPackLen   = errors.New("default Server codec pack length error")
 	ErrMsgHeaderLen = errors.New("default Server codec header length error")
 	ErrMsgNotCheck  = errors.New("connect not check")
 )
 
-func (p *proto.Proto) ReadWebSocket(ws *websocket.Conn) (err error) {
+func (p *Proto) ReadWebSocket(ws *websocket.Conn) (err error) {
 	var (
 		bodyLen   uint32
 		headerLen uint16
@@ -132,7 +131,7 @@ fmt.Println(allBuf)
 	return nil
 }
 
-func (p *proto.Proto) WriteWebSocket(ws *websocket.Conn) (err error) {
+func (p *Proto) WriteWebSocket(ws *websocket.Conn) (err error) {
 	var (
 		buf     = make([]byte, RawHeaderSize)
 		packLen = uint32(RawHeaderSize) + uint32(len(p.Body))
