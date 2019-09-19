@@ -7,6 +7,7 @@
 package connect
 
 import (
+	"context"
 	"time"
 
 	"DailysServer/connect/conf"
@@ -21,6 +22,7 @@ const (
 )
 
 type Server struct {
+
 	bucket *Bucket
 	round  *Round
 }
@@ -82,5 +84,9 @@ func (s *Server) push(id string, notice []byte) {
 		msg.Body = notice
 		ch.Push(msg)
 	}
+
+}
+
+func (s *Server) Operate(ctx context.Context, p *proto.Proto) error {
 
 }

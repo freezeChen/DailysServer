@@ -103,6 +103,10 @@ func ServeWebSocket(srv *Server, ws *websocket.Conn, rn int) {
 			msg.Opr = proto.OpHeartbeatReply
 			msg.Body = nil
 			zlog.Debug("ping")
+		} else {
+			if err = srv.Operate(ctx, msg); err != nil {
+				break
+			}
 		}
 
 		ch.Ring.SetAdv()

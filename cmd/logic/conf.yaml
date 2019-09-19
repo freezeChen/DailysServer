@@ -1,11 +1,11 @@
-appName: connect
+appName: logic
 rpcServer:
-  name: 'vip.frozen.srv.connect'
+  name: 'vip.frozen.srv.logic'
   ttl: 45
   interval: 60
 webSocket:
   addr: ':7001'
 log:
-  name: connect
+  name: logic
   debug: true
 

@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package proto;
+
+
+
+import "github.com/gogo/protobuf/gogoproto/gogo.proto";
+
+
+message Proto {
+	int32 ver = 1 [(gogoproto.jsontag) = "ver"];
+	int32 opr = 2 [(gogoproto.jsontag) = "opr"];
+	int32 seq = 3 [(gogoproto.jsontag) = "seq"];
+	bytes body = 4 [(gogoproto.jsontag) = "body"];
+}

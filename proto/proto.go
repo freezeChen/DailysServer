@@ -10,6 +10,7 @@ import (
 	"encoding/binary"
 	"errors"
 	"fmt"
+
 	"github.com/gorilla/websocket"
 )
 
@@ -104,7 +105,7 @@ func (p *Proto) ReadWebSocket(ws *websocket.Conn) (err error) {
 	if err != nil {
 		return
 	}
-fmt.Println(allBuf)
+	fmt.Println(allBuf)
 	if len(allBuf) < (RawHeaderSize) {
 		return ErrMsgHeaderLen
 	}
@@ -113,7 +114,7 @@ fmt.Println(allBuf)
 	headerLen = binary.BigEndian.Uint16(allBuf[HeaderOffset:VerOffset])
 	p.Ver = int32(binary.BigEndian.Uint16(allBuf[VerOffset:OperationOffset]))
 	p.Opr = int32(binary.BigEndian.Uint32(allBuf[OperationOffset:SeqIdOffset]))
-	p.Id = int64(binary.BigEndian.Uint32(allBuf[SeqIdOffset:]))
+	p.Seq = int32(binary.BigEndian.Uint32(allBuf[SeqIdOffset:]))
 
 	if packLen > MaxPackSize {
 		return ErrMsgPackLen
@@ -140,8 +141,7 @@ func (p *Proto) WriteWebSocket(ws *websocket.Conn) (err error) {
 	binary.BigEndian.PutUint16(buf[HeaderOffset:], RawHeaderSize)
 	binary.BigEndian.PutUint16(buf[VerOffset:], uint16(p.Ver))
 	binary.BigEndian.PutUint32(buf[OperationOffset:], uint32(p.Opr))
-	binary.BigEndian.PutUint32(buf[SeqIdOffset:], uint32(p.Id))
-
+	binary.BigEndian.PutUint32(buf[SeqIdOffset:], uint32(p.Seq))
 
 	buf = append(buf, p.Body...)
 
