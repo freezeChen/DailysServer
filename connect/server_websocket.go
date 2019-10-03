@@ -1,21 +1,23 @@
 package connect
 
 import (
-	"DailysServer/pkg/timer"
-	"DailysServer/proto"
 	"context"
 	"fmt"
-	"github.com/freezeChen/studio-library/zlog"
 	"math"
 	"net/http"
 	"time"
+
+	"DailysServer/pkg/timer"
+	"DailysServer/proto"
+
+	"github.com/freezeChen/studio-library/zlog"
 
 	"github.com/gorilla/websocket"
 )
 
 var rn int
 
-var upgrader = websocket.Upgrader{
+var upGrader = websocket.Upgrader{
 	CheckOrigin: func(r *http.Request) bool {
 		return true
 	},
@@ -23,8 +25,21 @@ var upgrader = websocket.Upgrader{
 	WriteBufferSize: 2048,
 }
 
-func InitWebSocket(srv *Server, w http.ResponseWriter, r *http.Request) {
-	conn, err := upgrader.Upgrade(w, r, nil)
+func InitWebSocket(srv *Server, addr string) {
+	http.HandleFunc("/socket", func(w http.ResponseWriter, r *http.Request) {
+		upGrade(srv, w, r)
+	})
+	go func() {
+		if err := http.ListenAndServe(addr, nil); err != nil {
+			panic(err)
+			return
+		}
+	}()
+
+}
+
+func upGrade(srv *Server, w http.ResponseWriter, r *http.Request) {
+	conn, err := upGrader.Upgrade(w, r, nil)
 	if err != nil {
 		zlog.Errorf(err.Error())
 		return
@@ -57,7 +72,7 @@ func ServeWebSocket(srv *Server, ws *websocket.Conn, rn int) {
 		if key, err = srv.AuthWebSocket(ctx, ws, msg, ch); err == nil {
 			srv.bucket.Online(key, ch)
 			ch.Id = key
-			msg.Opr = OpAuthReply
+			msg.Opr = proto.OpAuthReply
 			zlog.Debug("auth:" + key)
 		}
 	}
@@ -83,11 +98,15 @@ func ServeWebSocket(srv *Server, ws *websocket.Conn, rn int) {
 			zlog.Error(err.Error())
 			break
 		}
-		if msg.Opr == OpHeartbeat {
+		if msg.Opr == proto.OpHeartbeat {
 			tim.Set(timeData, _HeartBeat)
-			msg.Opr = OpHeartbeatReply
+			msg.Opr = proto.OpHeartbeatReply
 			msg.Body = nil
 			zlog.Debug("ping")
+		} else {
+			if err = srv.Operate(ctx, msg); err != nil {
+				break
+			}
 		}
 
 		ch.Ring.SetAdv()
@@ -107,10 +126,10 @@ func (s *Server) dispatchWebsocket(ws *websocket.Conn, ch *Channel) {
 	for {
 		msg := ch.Ready()
 		switch msg {
-		case ProtoFinish:
+		case proto.ProtoFinish:
 			zlog.Info("websocket finish")
 			goto field1
-		case ProtoReady:
+		case proto.ProtoReady:
 			if msg, err = ch.Ring.Get(); err != nil {
 				goto field1
 			}
@@ -162,8 +181,6 @@ func (s *Server) AuthWebSocket(ctx context.Context, ws *websocket.Conn, msg *pro
 		return
 	*/
 	//校验token
-
-
 
 	return
 }

@@ -4,13 +4,13 @@
    @File : proto
    @Software: KingMaxWMS_APP_API
 */
-package connect
+package proto
 
 import (
-	"DailysServer/proto"
 	"encoding/binary"
 	"errors"
 	"fmt"
+
 	"github.com/gorilla/websocket"
 )
 
@@ -85,15 +85,15 @@ const (
 )
 
 var (
-	ProtoFinish = &proto.Proto{Opr: OpProtoFinish}
-	ProtoReady  = &proto.Proto{Opr: OpProtoReady}
+	ProtoFinish = &Proto{Opr: OpProtoFinish}
+	ProtoReady  = &Proto{Opr: OpProtoReady}
 
 	ErrMsgPackLen   = errors.New("default Server codec pack length error")
 	ErrMsgHeaderLen = errors.New("default Server codec header length error")
 	ErrMsgNotCheck  = errors.New("connect not check")
 )
 
-func (p *proto.Proto) ReadWebSocket(ws *websocket.Conn) (err error) {
+func (p *Proto) ReadWebSocket(ws *websocket.Conn) (err error) {
 	var (
 		bodyLen   uint32
 		headerLen uint16
@@ -105,7 +105,7 @@ func (p *proto.Proto) ReadWebSocket(ws *websocket.Conn) (err error) {
 	if err != nil {
 		return
 	}
-fmt.Println(allBuf)
+	fmt.Println(allBuf)
 	if len(allBuf) < (RawHeaderSize) {
 		return ErrMsgHeaderLen
 	}
@@ -114,7 +114,7 @@ fmt.Println(allBuf)
 	headerLen = binary.BigEndian.Uint16(allBuf[HeaderOffset:VerOffset])
 	p.Ver = int32(binary.BigEndian.Uint16(allBuf[VerOffset:OperationOffset]))
 	p.Opr = int32(binary.BigEndian.Uint32(allBuf[OperationOffset:SeqIdOffset]))
-	p.Id = int64(binary.BigEndian.Uint32(allBuf[SeqIdOffset:]))
+	p.Seq = int32(binary.BigEndian.Uint32(allBuf[SeqIdOffset:]))
 
 	if packLen > MaxPackSize {
 		return ErrMsgPackLen
@@ -132,7 +132,7 @@ fmt.Println(allBuf)
 	return nil
 }
 
-func (p *proto.Proto) WriteWebSocket(ws *websocket.Conn) (err error) {
+func (p *Proto) WriteWebSocket(ws *websocket.Conn) (err error) {
 	var (
 		buf     = make([]byte, RawHeaderSize)
 		packLen = uint32(RawHeaderSize) + uint32(len(p.Body))
@@ -141,8 +141,7 @@ func (p *proto.Proto) WriteWebSocket(ws *websocket.Conn) (err error) {
 	binary.BigEndian.PutUint16(buf[HeaderOffset:], RawHeaderSize)
 	binary.BigEndian.PutUint16(buf[VerOffset:], uint16(p.Ver))
 	binary.BigEndian.PutUint32(buf[OperationOffset:], uint32(p.Opr))
-	binary.BigEndian.PutUint32(buf[SeqIdOffset:], uint32(p.Id))
-
+	binary.BigEndian.PutUint32(buf[SeqIdOffset:], uint32(p.Seq))
 
 	buf = append(buf, p.Body...)
 

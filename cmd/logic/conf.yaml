@@ -1,0 +1,11 @@
+appName: logic
+rpcServer:
+  name: 'vip.frozen.srv.logic'
+  ttl: 45
+  interval: 60
+webSocket:
+  addr: ':7001'
+log:
+  name: logic
+  debug: true
+

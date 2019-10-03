@@ -12,3 +12,5 @@
 *.out
 .idea
 .vscode
+go.sum
+cmd/connect/connect

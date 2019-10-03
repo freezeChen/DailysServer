@@ -5,7 +5,6 @@ import (
 	"os"
 
 	"github.com/freezeChen/studio-library/util"
-	"github.com/freezeChen/studio-library/zlog"
 	"github.com/micro/go-micro/config"
 	"github.com/micro/go-micro/config/source/file"
 )
@@ -30,18 +29,12 @@ func Init() error {
 }
 
 type Config struct {
-	AppName   string       `json:"appName"`
-	RpcServer *RpcServer   `json:"rpcServer"`
-	WebSocket *WebSocket   `json:"webSocket"`
-	Log       *zlog.Config `json:"log"`
+	AppName   string
+	RpcServer *RpcServer
 }
 
 type RpcServer struct {
 	Name     string
 	TTL      int
 	Interval int
-}
-
-type WebSocket struct {
-	Addr string
 }

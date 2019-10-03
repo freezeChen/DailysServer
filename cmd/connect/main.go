@@ -1,8 +1,11 @@
 package main
 
 import (
-	"encoding/json"
-	"fmt"
+	"DailysServer/connect"
+	"DailysServer/connect/conf"
+	"DailysServer/connect/grpc"
+
+	"github.com/freezeChen/studio-library/zlog"
 )
 
 type Tag struct {
@@ -10,12 +13,14 @@ type Tag struct {
 }
 
 func main() {
-	var jsonStr = `{
-	"rPcaDdress":"address is "
-}`
+	if err := conf.Init(); err != nil {
+		panic(err)
+		return
+	}
+	zlog.InitLogger(conf.Conf.Log)
+	server := connect.NewServer(conf.Conf)
+	connect.InitWebSocket(server, conf.Conf.WebSocket.Addr)
 
-	var tag = new(Tag)
-	json.Unmarshal([]byte(jsonStr), tag)
+	grpc.New(conf.Conf.RpcServer, server)
 
-	fmt.Println(tag)
 }

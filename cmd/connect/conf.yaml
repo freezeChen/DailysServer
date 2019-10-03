@@ -1,0 +1,11 @@
+appName: connect
+rpcServer:
+  name: 'vip.frozen.srv.connect'
+  ttl: 45
+  interval: 60
+webSocket:
+  addr: ':7001'
+log:
+  name: connect
+  debug: true
+
