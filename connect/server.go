@@ -88,5 +88,6 @@ func (s *Server) push(id string, notice []byte) {
 }
 
 func (s *Server) Operate(ctx context.Context, p *proto.Proto) error {
-
+	zlog.Debugf("Operate:%v",p)
+	return nil
 }

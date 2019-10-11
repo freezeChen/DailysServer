@@ -8,8 +8,26 @@ import "proto.proto";
 
 service logic {
 	rpc single (singleReq) returns (singleReply);
+
+	rpc connect (connectReq) returns (connectReply);
+
+	rpc disConnect (disConnectReq) returns (disConnectReply);
 }
 
+
+message connectReq {
+	int64 sid = 1;
+	int64 uid = 2;
+}
+
+message connectReply {
+}
+
+message disConnectReq {
+}
+
+message disConnectReply {
+}
 
 message singleReq {
 	int64 uid = 1;

@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/freezeChen/studio-library/database/mysql"
+	"github.com/freezeChen/studio-library/redis"
 	"github.com/freezeChen/studio-library/util"
 	"github.com/micro/go-micro/config"
 	"github.com/micro/go-micro/config/source/file"
@@ -31,6 +33,8 @@ func Init() error {
 type Config struct {
 	AppName   string
 	RpcServer *RpcServer
+	Mysql     *mysql.Config
+	Redis     *redis.Config
 }
 
 type RpcServer struct {

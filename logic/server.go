@@ -32,6 +32,8 @@ func New(c *conf.RpcServer) {
 	}
 
 }
-func (s Server) Single(context.Context, *proto.SingleReq, *proto.SingleReply) error {
+
+// Single single chat
+func (s Server) Single(ctx context.Context, req *proto.SingleReq, reply *proto.SingleReply) error {
 	panic("implement me")
 }
