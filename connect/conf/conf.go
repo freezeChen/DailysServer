@@ -30,10 +30,11 @@ func Init() error {
 }
 
 type Config struct {
-	AppName   string       `json:"appName"`
-	RpcServer *RpcServer   `json:"rpcServer"`
-	WebSocket *WebSocket   `json:"webSocket"`
-	Log       *zlog.Config `json:"log"`
+	AppName   string           `json:"appName"`
+	RpcServer *RpcServer       `json:"rpcServer"`
+	WebSocket *WebSocketConfig `json:"webSocket"`
+	TCPConfig *TCPConfig       `json:"tcpConfig"`
+	Log       *zlog.Config     `json:"log"`
 }
 
 type RpcServer struct {
@@ -42,6 +43,13 @@ type RpcServer struct {
 	Interval int
 }
 
-type WebSocket struct {
+type WebSocketConfig struct {
 	Addr string
+}
+
+type TCPConfig struct {
+	Port           string
+	TCPKeepalive   bool
+	TCPReadBuffer  int
+	TCPWriteBuffer int
 }

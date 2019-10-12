@@ -10,16 +10,16 @@ import "sync"
 
 type Bucket struct {
 	lock sync.RWMutex
-	chs  map[string]*Channel
+	chs  map[int64]*Channel
 }
 
 func NewBucket() (b *Bucket) {
 	b = new(Bucket)
-	b.chs = make(map[string]*Channel)
+	b.chs = make(map[int64]*Channel)
 	return b
 }
 
-func (b *Bucket) Online(key string, c *Channel) {
+func (b *Bucket) Online(key int64, c *Channel) {
 	b.lock.Lock()
 	//该id已登录 下线
 	if ch, ok := b.chs[key]; ok {
@@ -30,7 +30,7 @@ func (b *Bucket) Online(key string, c *Channel) {
 	b.lock.Unlock()
 	return
 }
-func (b *Bucket) Get(key string) (c *Channel) {
+func (b *Bucket) Get(key int64) (c *Channel) {
 	b.lock.RLock()
 	c = b.chs[key]
 	b.lock.RUnlock()
@@ -38,7 +38,7 @@ func (b *Bucket) Get(key string) (c *Channel) {
 }
 
 //下线&离线
-func (b *Bucket) Offline(Key string) {
+func (b *Bucket) Offline(Key int64) {
 	var (
 		ok bool
 	)

@@ -62,7 +62,7 @@ func NewServer(c *conf.Config) *Server {
 //	}()
 //}
 
-func (s *Server) batchPush(ids []string, notice []byte) {
+func (s *Server) batchPush(ids []int64, notice []byte) {
 	var msg = new(proto.Proto)
 	msg.Opr = proto.OpSendMsg
 
@@ -77,7 +77,7 @@ func (s *Server) batchPush(ids []string, notice []byte) {
 	}
 }
 
-func (s *Server) push(id string, notice []byte) {
+func (s *Server) push(id int64, notice []byte) {
 	if ch := s.bucket.Get(id); ch != nil {
 		var msg = new(proto.Proto)
 		msg.Opr = proto.OpSendMsg

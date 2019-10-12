@@ -7,10 +7,12 @@
 package proto
 
 import (
+	"bufio"
 	"encoding/binary"
 	"errors"
 	"fmt"
 
+	"github.com/golang/glog"
 	"github.com/gorilla/websocket"
 )
 
@@ -92,6 +94,79 @@ var (
 	ErrMsgHeaderLen = errors.New("default Server codec header length error")
 	ErrMsgNotCheck  = errors.New("connect not check")
 )
+
+
+/**
+协议 [0 0 0 0, 0 0, 0 0, 0 0 0 0, 0 0 0 0, ...]
+	包总长-	协议长度(16),版本,通讯代号,身份,消息体
+*/
+/*type Msg struct {
+	Ver       uint16          `json:"ver"`
+	Operation uint32          `json:"operation"`
+	SeqId     uint32          `json:"seqId"`
+	Body      json.RawMessage `json:"body"`
+	Code      int32           `json:"code"`
+}
+*/
+func (p *Proto) ReadTCP(r *bufio.Reader) (err error) {
+	var (
+		bodyLen   uint32
+		headerLen uint16
+		packLen   uint32
+		headBuf   []byte = make([]byte, RawHeaderSize)
+		bodyBuf   []byte
+	)
+	//headBuf, err = r.Peek(RawHeaderSize)
+
+	n, err := r.Read(headBuf)
+	fmt.Println(n)
+	if n != int(RawHeaderSize) {
+		err = ErrMsgHeaderLen
+		return
+	}
+	packLen = binary.BigEndian.Uint32(headBuf[PackOffset:HeaderOffset])
+	headerLen = binary.BigEndian.Uint16(headBuf[HeaderOffset:VerOffset])
+	p.Ver = int32(binary.BigEndian.Uint16(headBuf[VerOffset:OperationOffset]))
+	p.Opr = int32(binary.BigEndian.Uint32(headBuf[OperationOffset:SeqIdOffset]))
+	p.Seq = int32(binary.BigEndian.Uint32(headBuf[SeqIdOffset:]))
+
+	glog.Info("proto:", p)
+
+	if packLen > MaxPackSize {
+		return ErrMsgPackLen
+	}
+	if uint(headerLen) != RawHeaderSize {
+		return ErrMsgHeaderLen
+	}
+	if bodyLen = packLen - uint32(headerLen); bodyLen > 0 {
+		bodyBuf = make([]byte, bodyLen)
+		_, err = r.Read(bodyBuf)
+		p.Body = bodyBuf
+	} else {
+		p.Body = nil
+	}
+
+	return
+}
+
+func (p *Proto) WriteTCP(w *bufio.Writer) (err error) {
+	var (
+		packLen uint32
+	)
+	packLen = uint32(RawHeaderSize) + uint32(len(p.Body))
+
+	binary.Write(w, binary.BigEndian, packLen)
+	binary.Write(w, binary.BigEndian, uint16(RawHeaderSize))
+	binary.Write(w, binary.BigEndian, uint16(p.Ver))
+	binary.Write(w, binary.BigEndian, uint32(p.Opr))
+	binary.Write(w, binary.BigEndian, uint32(p.Seq))
+	binary.Write(w, binary.BigEndian, p.Body)
+
+	err = w.Flush()
+	return
+}
+
+
 
 func (p *Proto) ReadWebSocket(ws *websocket.Conn) (err error) {
 	var (

@@ -8,22 +8,24 @@ package connect
 
 import (
 	"bufio"
+	"net"
 
 	"DailysServer/proto"
 )
 
 type Channel struct {
-	Id     string
+	Id     int64
 	Ring   *Ring
 	msg    chan *proto.Proto
 	Writer bufio.Writer
 	Reader bufio.Reader
+	Conn   *net.TCPConn
 }
 
 func NewChannel() *Channel {
 	return &Channel{
 		Ring: NewRing(),
-		msg:  make(chan *proto.Proto,1024),
+		msg:  make(chan *proto.Proto, 1024),
 	}
 }
 

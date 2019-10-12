@@ -19,6 +19,11 @@ func main() {
 	}
 	zlog.InitLogger(conf.Conf.Log)
 	server := connect.NewServer(conf.Conf)
+
+	if err := connect.InitTCP(server, conf.Conf.TCPConfig); err != nil {
+		panic(err)
+		return
+	}
 	connect.InitWebSocket(server, conf.Conf.WebSocket.Addr)
 
 	grpc.New(conf.Conf.RpcServer, server)

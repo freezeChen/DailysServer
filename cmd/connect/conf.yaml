@@ -5,6 +5,11 @@ rpcServer:
   interval: 60
 webSocket:
   addr: ':7001'
+tcpConfig:
+  Port: ':7002'
+  TCPKeepalive: true
+  TCPReadBuffer: 1024
+  TCPWriteBuffer: 1024
 log:
   name: connect
   debug: true

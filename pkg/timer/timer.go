@@ -14,7 +14,7 @@ const (
 
 // TimerData timer data.
 type TimerData struct {
-	Key    string
+	Key    int64
 	expire itime.Time
 	fn     func()
 	index  int
