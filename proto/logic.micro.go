@@ -35,7 +35,9 @@ var _ server.Option
 // Client API for Logic service
 
 type LogicService interface {
-	Single(ctx context.Context, in *SingleReq, opts ...client.CallOption) (*SingleReply, error)
+	SendMessage(ctx context.Context, in *MessageReq, opts ...client.CallOption) (*EmptyReply, error)
+	Connect(ctx context.Context, in *ConnectReq, opts ...client.CallOption) (*ConnectReply, error)
+	DisConnect(ctx context.Context, in *DisConnectReq, opts ...client.CallOption) (*DisConnectReply, error)
 }
 
 type logicService struct {
@@ -56,9 +58,29 @@ func NewLogicService(name string, c client.Client) LogicService {
 	}
 }
 
-func (c *logicService) Single(ctx context.Context, in *SingleReq, opts ...client.CallOption) (*SingleReply, error) {
-	req := c.c.NewRequest(c.name, "Logic.single", in)
-	out := new(SingleReply)
+func (c *logicService) SendMessage(ctx context.Context, in *MessageReq, opts ...client.CallOption) (*EmptyReply, error) {
+	req := c.c.NewRequest(c.name, "Logic.sendMessage", in)
+	out := new(EmptyReply)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *logicService) Connect(ctx context.Context, in *ConnectReq, opts ...client.CallOption) (*ConnectReply, error) {
+	req := c.c.NewRequest(c.name, "Logic.connect", in)
+	out := new(ConnectReply)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *logicService) DisConnect(ctx context.Context, in *DisConnectReq, opts ...client.CallOption) (*DisConnectReply, error) {
+	req := c.c.NewRequest(c.name, "Logic.disConnect", in)
+	out := new(DisConnectReply)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -69,12 +91,16 @@ func (c *logicService) Single(ctx context.Context, in *SingleReq, opts ...client
 // Server API for Logic service
 
 type LogicHandler interface {
-	Single(context.Context, *SingleReq, *SingleReply) error
+	SendMessage(context.Context, *MessageReq, *EmptyReply) error
+	Connect(context.Context, *ConnectReq, *ConnectReply) error
+	DisConnect(context.Context, *DisConnectReq, *DisConnectReply) error
 }
 
 func RegisterLogicHandler(s server.Server, hdlr LogicHandler, opts ...server.HandlerOption) error {
 	type logic interface {
-		Single(ctx context.Context, in *SingleReq, out *SingleReply) error
+		SendMessage(ctx context.Context, in *MessageReq, out *EmptyReply) error
+		Connect(ctx context.Context, in *ConnectReq, out *ConnectReply) error
+		DisConnect(ctx context.Context, in *DisConnectReq, out *DisConnectReply) error
 	}
 	type Logic struct {
 		logic
@@ -87,6 +113,14 @@ type logicHandler struct {
 	LogicHandler
 }
 
-func (h *logicHandler) Single(ctx context.Context, in *SingleReq, out *SingleReply) error {
-	return h.LogicHandler.Single(ctx, in, out)
+func (h *logicHandler) SendMessage(ctx context.Context, in *MessageReq, out *EmptyReply) error {
+	return h.LogicHandler.SendMessage(ctx, in, out)
+}
+
+func (h *logicHandler) Connect(ctx context.Context, in *ConnectReq, out *ConnectReply) error {
+	return h.LogicHandler.Connect(ctx, in, out)
+}
+
+func (h *logicHandler) DisConnect(ctx context.Context, in *DisConnectReq, out *DisConnectReply) error {
+	return h.LogicHandler.DisConnect(ctx, in, out)
 }

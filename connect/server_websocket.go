@@ -29,6 +29,9 @@ func InitWebSocket(srv *Server, addr string) {
 	http.HandleFunc("/socket", func(w http.ResponseWriter, r *http.Request) {
 		upGrade(srv, w, r)
 	})
+	http.HandleFunc("/ping", func(writer http.ResponseWriter, request *http.Request) {
+		fmt.Fprintln(writer, "hello")
+	})
 	go func() {
 		if err := http.ListenAndServe(addr, nil); err != nil {
 			panic(err)

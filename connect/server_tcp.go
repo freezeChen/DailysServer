@@ -7,6 +7,7 @@ import (
 	"math"
 	"net"
 	"runtime"
+	"strconv"
 	"time"
 
 	"DailysServer/connect/conf"
@@ -116,7 +117,7 @@ func (s *Server) serverTCP(c *conf.TCPConfig, conn *net.TCPConn, r int) {
 		}
 
 		timerData.Key = ch.Id
-		tim.Set(timerData, time.Duration(60*time.Second))
+		tim.Set(timerData, time.Duration(10*time.Second))
 		go s.dispatchTCP(conn, &ch.Writer, ch)
 
 		for {
@@ -129,14 +130,11 @@ func (s *Server) serverTCP(c *conf.TCPConfig, conn *net.TCPConn, r int) {
 			}
 
 			if msg.Opr == proto.OpHeartbeat {
+				zlog.Info("heartbeat")
 				tim.Set(timerData, _HeartBeat)
 				msg.Opr = proto.OpHeartbeatReply
 				msg.Body = nil
-				//if now := time.Now(); now.Sub(lastHb) > _HeartBeat {
-				//	if err = s.Heartbeat(ctx, ch.Id); err == nil {
-				//		lastHb = now
-				//	}
-				//}
+
 			} else {
 				if err := s.Operate(ctx, msg); err != nil {
 					break
@@ -156,9 +154,6 @@ func (s *Server) serverTCP(c *conf.TCPConfig, conn *net.TCPConn, r int) {
 	ch.Close()
 	s.bucket.Offline(ch.Id)
 
-	//if err := s.DisConnect(ctx, ch.Id); err != nil {
-	//	zlog.Errorf("disConnect is error:(%v)", err)
-	//}
 }
 
 func (s *Server) dispatchTCP(conn *net.TCPConn, wr *bufio.Writer, ch *Channel) {
@@ -210,17 +205,18 @@ func (server *Server) AuthTCP(ctx context.Context, msg *proto.Proto, ch *Channel
 		return
 	}
 
-	//server.Operate()
+	id, err = strconv.ParseInt(string(msg.Body), 10, 64)
+	if err != nil {
+		return
+	}
 
-	//_, err = server.logic.Auth(ctx, &proto.AuthReq{
-	//	Id: msg.Id,
-	//})
-	//
-	//if err != nil {
-	//	return
-	//}
-	//
-	//id = msg.Id
+	msg.Opr = proto.OpAuthReply
+	msg.Body = nil
+
+	if err := msg.WriteTCP(&ch.Writer); err != nil {
+
+		return 0, err
+	}
 
 	return
 }

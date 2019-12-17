@@ -1,17 +1,16 @@
 package logic
 
 import (
-	"context"
 	"time"
 
 	"DailysServer/logic/conf"
+	"DailysServer/logic/rpc"
 	"DailysServer/proto"
 
 	"github.com/micro/go-micro"
 )
 
-type Server struct {
-}
+
 
 func New(c *conf.RpcServer) {
 	service := micro.NewService(
@@ -21,7 +20,7 @@ func New(c *conf.RpcServer) {
 
 	service.Init()
 
-	if err := proto.RegisterLogicHandler(service.Server(), &Server{}); err != nil {
+	if err := proto.RegisterLogicHandler(service.Server(), &rpc.Logic{}); err != nil {
 		panic(err)
 		return
 	}
@@ -31,9 +30,4 @@ func New(c *conf.RpcServer) {
 		return
 	}
 
-}
-
-// Single single chat
-func (s Server) Single(ctx context.Context, req *proto.SingleReq, reply *proto.SingleReply) error {
-	panic("implement me")
 }

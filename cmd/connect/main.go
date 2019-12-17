@@ -15,7 +15,6 @@ type Tag struct {
 func main() {
 	if err := conf.Init(); err != nil {
 		panic(err)
-		return
 	}
 	zlog.InitLogger(conf.Conf.Log)
 	server := connect.NewServer(conf.Conf)
@@ -24,6 +23,7 @@ func main() {
 		panic(err)
 		return
 	}
+
 	connect.InitWebSocket(server, conf.Conf.WebSocket.Addr)
 
 	grpc.New(conf.Conf.RpcServer, server)

@@ -7,11 +7,16 @@ import "github.com/gogo/protobuf/gogoproto/gogo.proto";
 import "proto.proto";
 
 service logic {
-	rpc single (singleReq) returns (singleReply);
+	rpc sendMessage (MessageReq) returns (EmptyReply);
 
 	rpc connect (connectReq) returns (connectReply);
 
 	rpc disConnect (disConnectReq) returns (disConnectReply);
+}
+
+
+message EmptyReply {
+
 }
 
 
@@ -29,12 +34,9 @@ message disConnectReq {
 message disConnectReply {
 }
 
-message singleReq {
-	int64 uid = 1;
-	Proto proto = 2;
-
-}
-
-
-message singleReply {
+message MessageReq {
+	int64 senderId = 1; //发送者Id
+	int64 recipientId = 2; //接受者Id
+	int64 type = 3; //消息类型(1:普通文本)
+	string content = 4; //消息内容
 }
