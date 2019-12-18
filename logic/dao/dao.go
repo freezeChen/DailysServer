@@ -37,3 +37,10 @@ func (d *Dao) GetContact(ownerId, otherId int64) *models.Contact {
 
 	return &item
 }
+
+func (d *Dao) Online(sid string, uid int64) error {
+
+
+
+
+}

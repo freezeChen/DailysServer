@@ -11,7 +11,7 @@ import (
 )
 
 type LogicService struct {
-	dao     *dao.Dao
+	dao *dao.Dao
 }
 
 func NewLogicService(c *conf.Config, ) *LogicService {
@@ -114,4 +114,8 @@ func (svc *LogicService) SaveMessage(req *proto.MessageReq) error {
 	}
 
 	return nil
+}
+
+func (svc *LogicService) Online(sid string, uid string) {
+
 }

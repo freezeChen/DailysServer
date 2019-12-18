@@ -8,9 +8,11 @@ package connect
 
 import (
 	"context"
+	"encoding/json"
 	"time"
 
 	"DailysServer/connect/conf"
+	models "DailysServer/logic/model"
 	"DailysServer/proto"
 
 	"github.com/freezeChen/studio-library/zlog"
@@ -62,9 +64,24 @@ func (server *Server) Push(id int64, notice []byte) {
 
 }
 
-func (server *Server) Operate(ctx context.Context, p *proto.Proto) error {
-	zlog.Debugf("Operate:%v", p)
-	return nil
+func (server *Server) Operate(ctx context.Context, p *proto.Proto) (err error) {
+
+	switch p.Opr {
+	case proto.OpSendMsg:
+		var msg models.Message
+		err = json.Unmarshal(p.Body, &msg)
+		if err != nil {
+			return
+		}
+		_, err = server.logicClient.SendMessage(ctx, &proto.MessageReq{
+			SenderId:    msg.SenderId,
+			RecipientId: msg.RecipientId,
+			Type:        msg.Type,
+			Content:     msg.Content,
+		})
+	}
+
+	return
 }
 
 func (server *Server) Connect(ctx context.Context, sid string, uid int64) error {

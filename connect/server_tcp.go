@@ -134,7 +134,6 @@ func (server *Server) serverTCP(c *conf.TCPConfig, conn *net.TCPConn, r int) {
 				tim.Set(timerData, _HeartBeat)
 				msg.Opr = proto.OpHeartbeatReply
 				msg.Body = nil
-
 			} else {
 				if err := server.Operate(ctx, msg); err != nil {
 					break
@@ -152,6 +151,7 @@ func (server *Server) serverTCP(c *conf.TCPConfig, conn *net.TCPConn, r int) {
 	tim.Del(timerData)
 	conn.Close()
 	ch.Close()
+	server.DisConnect(ctx, conf.Conf.RpcServer.Id, ch.Id)
 	server.Bucket.Offline(ch.Id)
 
 }
@@ -172,7 +172,7 @@ func (server *Server) dispatchTCP(conn *net.TCPConn, wr *bufio.Writer, ch *Chann
 			}
 
 			if p.Opr == proto.OpHeartbeatReply {
-
+				continue
 			}
 
 			if err := p.WriteTCP(wr); err != nil {

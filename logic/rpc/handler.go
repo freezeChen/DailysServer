@@ -8,14 +8,14 @@ import (
 )
 
 type LogicHandler struct {
-	svc     *service.LogicService
-	connRpc proto.ConnectService
+	svc        *service.LogicService
+	connClient proto.ConnectService
 }
 
 func NewLogicHandler(svc *service.LogicService, rpc proto.ConnectService) *LogicHandler {
 	return &LogicHandler{
-		svc:     svc,
-		connRpc: rpc,
+		svc:        svc,
+		connClient: rpc,
 	}
 }
 
