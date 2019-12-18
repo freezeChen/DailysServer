@@ -7,21 +7,30 @@ import (
 	"DailysServer/proto"
 )
 
-type Logic struct {
-	svc *service.LogicService
+type LogicHandler struct {
+	svc     *service.LogicService
+	connRpc proto.ConnectService
 }
 
-func (l *Logic) SendMessage(ctx context.Context, req *proto.MessageReq, reply *proto.EmptyReply) error {
+func NewLogicHandler(svc *service.LogicService, rpc proto.ConnectService) *LogicHandler {
+	return &LogicHandler{
+		svc:     svc,
+		connRpc: rpc,
+	}
+}
 
-
-
+func (l *LogicHandler) SendMessage(ctx context.Context, req *proto.MessageReq, reply *proto.EmptyReply) error {
+	err := l.svc.SaveMessage(req)
+	if err != nil {
+		return err
+	}
 
 }
 
-func (l *Logic) Connect(context.Context, *proto.ConnectReq, *proto.ConnectReply) error {
+func (l *LogicHandler) Connect(context.Context, *proto.ConnectReq, *proto.ConnectReply) error {
 	panic("implement me")
 }
 
-func (l *Logic) DisConnect(context.Context, *proto.DisConnectReq, *proto.DisConnectReply) error {
+func (l *LogicHandler) DisConnect(context.Context, *proto.DisConnectReq, *proto.DisConnectReply) error {
 	panic("implement me")
 }

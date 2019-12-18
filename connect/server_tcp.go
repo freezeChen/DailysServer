@@ -77,14 +77,14 @@ func (server *Server) acceptTCP(c *conf.TCPConfig, listen *net.TCPListener) {
 	}
 }
 
-func (s *Server) serverTCP(c *conf.TCPConfig, conn *net.TCPConn, r int) {
+func (server *Server) serverTCP(c *conf.TCPConfig, conn *net.TCPConn, r int) {
 	var (
 		ch  *Channel
 		msg *proto.Proto
 		err error
 		//ctx context.Context
 		//lastHb    = time.Now()
-		tim       = s.round.Timer(r)
+		tim       = server.round.Timer(r)
 		timerData *timer.TimerData
 	)
 
@@ -103,8 +103,8 @@ func (s *Server) serverTCP(c *conf.TCPConfig, conn *net.TCPConn, r int) {
 	})
 
 	if msg, err = ch.Ring.Set(); err == nil {
-		if ch.Id, err = s.AuthTCP(ctx, msg, ch); err == nil {
-			s.bucket.Online(ch.Id, ch)
+		if ch.Id, err = server.AuthTCP(ctx, msg, ch); err == nil {
+			server.Bucket.Online(ch.Id, ch)
 			zlog.Debugf("tcp connect id:%d proto: %+v", ch.Id, msg)
 		}
 
@@ -118,7 +118,7 @@ func (s *Server) serverTCP(c *conf.TCPConfig, conn *net.TCPConn, r int) {
 
 		timerData.Key = ch.Id
 		tim.Set(timerData, time.Duration(10*time.Second))
-		go s.dispatchTCP(conn, &ch.Writer, ch)
+		go server.dispatchTCP(conn, &ch.Writer, ch)
 
 		for {
 			if msg, err = ch.Ring.Set(); err != nil {
@@ -136,7 +136,7 @@ func (s *Server) serverTCP(c *conf.TCPConfig, conn *net.TCPConn, r int) {
 				msg.Body = nil
 
 			} else {
-				if err := s.Operate(ctx, msg); err != nil {
+				if err := server.Operate(ctx, msg); err != nil {
 					break
 				}
 			}
@@ -152,11 +152,11 @@ func (s *Server) serverTCP(c *conf.TCPConfig, conn *net.TCPConn, r int) {
 	tim.Del(timerData)
 	conn.Close()
 	ch.Close()
-	s.bucket.Offline(ch.Id)
+	server.Bucket.Offline(ch.Id)
 
 }
 
-func (s *Server) dispatchTCP(conn *net.TCPConn, wr *bufio.Writer, ch *Channel) {
+func (server *Server) dispatchTCP(conn *net.TCPConn, wr *bufio.Writer, ch *Channel) {
 	var (
 		err error
 	)
@@ -214,7 +214,10 @@ func (server *Server) AuthTCP(ctx context.Context, msg *proto.Proto, ch *Channel
 	msg.Body = nil
 
 	if err := msg.WriteTCP(&ch.Writer); err != nil {
+		return 0, err
+	}
 
+	if err = server.Connect(ctx, conf.Conf.RpcServer.Id, id); err != nil {
 		return 0, err
 	}
 

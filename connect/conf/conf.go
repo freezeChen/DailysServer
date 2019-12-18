@@ -38,6 +38,7 @@ type Config struct {
 }
 
 type RpcServer struct {
+	Id       string
 	Name     string
 	TTL      int
 	Interval int

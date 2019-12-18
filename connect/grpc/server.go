@@ -5,23 +5,27 @@ import (
 
 	"DailysServer/connect"
 	"DailysServer/connect/conf"
+	"DailysServer/proto"
 
+	"github.com/google/uuid"
 	"github.com/micro/go-micro"
 	"github.com/micro/go-micro/service/grpc"
 )
 
-type server struct {
-	connectSrv *connect.Server
-}
-
-func New(c *conf.RpcServer, s *connect.Server) {
-
+func New(s *connect.Server) {
+	conf.Conf.RpcServer.Id = uuid.New().String()
 	service := grpc.NewService(
-		micro.Name(c.Name),
-		micro.RegisterTTL(time.Duration(c.TTL)*time.Second),
-		micro.RegisterInterval(time.Duration(c.Interval)*time.Second),
+		micro.Name(conf.Conf.RpcServer.Name),
+		micro.Metadata(map[string]string{"id": conf.Conf.RpcServer.Id}),
+		micro.RegisterTTL(time.Duration(conf.Conf.RpcServer.TTL)*time.Second),
+		micro.RegisterInterval(time.Duration(conf.Conf.RpcServer.Interval)*time.Second),
 	)
 	service.Init()
+
+	err := proto.RegisterConnectHandler(service.Server(), NewConnectHandler(s))
+	if err != nil {
+		panic(err)
+	}
 
 	if err := service.Run(); err != nil {
 		panic(err)

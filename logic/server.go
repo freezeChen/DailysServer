@@ -5,27 +5,32 @@ import (
 
 	"DailysServer/logic/conf"
 	"DailysServer/logic/rpc"
+	"DailysServer/logic/service"
 	"DailysServer/proto"
 
 	"github.com/micro/go-micro"
 )
 
-
-
 func New(c *conf.RpcServer) {
-	service := micro.NewService(
+	s := micro.NewService(
 		micro.Name(c.Name),
 		micro.RegisterTTL(time.Duration(c.TTL)*time.Second),
 		micro.RegisterInterval(time.Duration(c.Interval)*time.Second))
 
-	service.Init()
+	s.Init()
 
-	if err := proto.RegisterLogicHandler(service.Server(), &rpc.Logic{}); err != nil {
+	connectRpc := proto.NewConnectService("vip.frozen.srv.connect", s.Client())
+
+	logicService := service.NewLogicService(conf.GetConf())
+
+
+
+	if err := proto.RegisterLogicHandler(s.Server(), rpc.NewLogicHandler(logicService,connectRpc)); err != nil {
 		panic(err)
 		return
 	}
 
-	if err := service.Run(); err != nil {
+	if err := s.Run(); err != nil {
 		panic(err)
 		return
 	}

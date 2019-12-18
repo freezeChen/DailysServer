@@ -7,13 +7,14 @@ import (
 	"github.com/freezeChen/studio-library/database/mysql"
 	"github.com/freezeChen/studio-library/redis"
 	"github.com/freezeChen/studio-library/util"
+	"github.com/freezeChen/studio-library/zlog"
 	"github.com/micro/go-micro/config"
 	"github.com/micro/go-micro/config/source/file"
 )
 
 var (
 	fileName string
-	Conf     *Config
+	conf     *Config
 )
 
 func init() {
@@ -24,17 +25,22 @@ func init() {
 }
 
 func Init() error {
-	Conf = new(Config)
+	conf = new(Config)
 	baseConfig := config.NewConfig(config.WithSource(file.NewSource(file.WithPath(fmt.Sprintf("%s/%s", util.GetCurrentDirectory(), fileName)))))
-	err := baseConfig.Scan(Conf)
+	err := baseConfig.Scan(conf)
 	return err
 }
 
+func GetConf() *Config {
+	return conf
+}
+
 type Config struct {
-	AppName   string
-	RpcServer *RpcServer
-	Mysql     *mysql.Config
-	Redis     *redis.Config
+	AppName   string        `json:"appName"`
+	RpcServer *RpcServer    `json:"rpcServer"`
+	Mysql     *mysql.Config `json:"mysql"`
+	Redis     *redis.Config `json:"redis"`
+	Log       *zlog.Config  `json:"log"`
 }
 
 type RpcServer struct {

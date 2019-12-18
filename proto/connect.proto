@@ -3,4 +3,24 @@ syntax = "proto3";
 package proto;
 
 
+service connect {
+	rpc pushMessage (PushMessageReq) returns (EmptyReply);
+	rpc batchMessage(BatchMessageReq)returns(EmptyReply);
 
+
+}
+
+message EmptyReply {
+}
+
+
+message PushMessageReq {
+	int64 Uid = 1;
+	string Content = 2;
+}
+
+
+message BatchMessageReq {
+	repeated int64 uid = 1;
+	string Content = 2;
+}

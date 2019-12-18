@@ -73,7 +73,7 @@ func ServeWebSocket(srv *Server, ws *websocket.Conn, rn int) {
 	if msg, err = ch.Ring.Set(); err == nil {
 
 		if key, err = srv.AuthWebSocket(ctx, ws, msg, ch); err == nil {
-			srv.bucket.Online(key, ch)
+			srv.Bucket.Online(key, ch)
 			ch.Id = key
 			msg.Opr = proto.OpAuthReply
 			zlog.Debugf("auth:%d", key)
@@ -119,11 +119,11 @@ func ServeWebSocket(srv *Server, ws *websocket.Conn, rn int) {
 	ch.Close()
 	ws.Close()
 	tim.Del(timeData)
-	srv.bucket.Offline(key)
+	srv.Bucket.Offline(key)
 
 }
 
-func (s *Server) dispatchWebsocket(ws *websocket.Conn, ch *Channel) {
+func (server *Server) dispatchWebsocket(ws *websocket.Conn, ch *Channel) {
 
 	var err error
 	for {
@@ -158,7 +158,7 @@ field1:
 
 }
 
-func (s *Server) AuthWebSocket(ctx context.Context, ws *websocket.Conn, msg *proto.Proto, ch *Channel) (key int64, err error) {
+func (server *Server) AuthWebSocket(ctx context.Context, ws *websocket.Conn, msg *proto.Proto, ch *Channel) (key int64, err error) {
 	fmt.Println("auth")
 	err = msg.ReadWebSocket(ws)
 	if err != nil {

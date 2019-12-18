@@ -9,6 +9,12 @@ import (
 	math "math"
 )
 
+import (
+	context "context"
+	client "github.com/micro/go-micro/client"
+	server "github.com/micro/go-micro/server"
+)
+
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal
 var _ = fmt.Errorf
@@ -19,3 +25,84 @@ var _ = math.Inf
 // A compilation error at this line likely means your copy of the
 // proto package needs to be updated.
 const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
+
+// Reference imports to suppress errors if they are not otherwise used.
+var _ context.Context
+var _ client.Option
+var _ server.Option
+
+// Client API for Connect service
+
+type ConnectService interface {
+	PushMessage(ctx context.Context, in *PushMessageReq, opts ...client.CallOption) (*EmptyReply, error)
+	BatchMessage(ctx context.Context, in *BatchMessageReq, opts ...client.CallOption) (*EmptyReply, error)
+}
+
+type connectService struct {
+	c    client.Client
+	name string
+}
+
+func NewConnectService(name string, c client.Client) ConnectService {
+	if c == nil {
+		c = client.NewClient()
+	}
+	if len(name) == 0 {
+		name = "proto"
+	}
+	return &connectService{
+		c:    c,
+		name: name,
+	}
+}
+
+func (c *connectService) PushMessage(ctx context.Context, in *PushMessageReq, opts ...client.CallOption) (*EmptyReply, error) {
+	req := c.c.NewRequest(c.name, "Connect.pushMessage", in)
+	out := new(EmptyReply)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *connectService) BatchMessage(ctx context.Context, in *BatchMessageReq, opts ...client.CallOption) (*EmptyReply, error) {
+	req := c.c.NewRequest(c.name, "Connect.batchMessage", in)
+	out := new(EmptyReply)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// Server API for Connect service
+
+type ConnectHandler interface {
+	PushMessage(context.Context, *PushMessageReq, *EmptyReply) error
+	BatchMessage(context.Context, *BatchMessageReq, *EmptyReply) error
+}
+
+func RegisterConnectHandler(s server.Server, hdlr ConnectHandler, opts ...server.HandlerOption) error {
+	type connect interface {
+		PushMessage(ctx context.Context, in *PushMessageReq, out *EmptyReply) error
+		BatchMessage(ctx context.Context, in *BatchMessageReq, out *EmptyReply) error
+	}
+	type Connect struct {
+		connect
+	}
+	h := &connectHandler{hdlr}
+	return s.Handle(s.NewHandler(&Connect{h}, opts...))
+}
+
+type connectHandler struct {
+	ConnectHandler
+}
+
+func (h *connectHandler) PushMessage(ctx context.Context, in *PushMessageReq, out *EmptyReply) error {
+	return h.ConnectHandler.PushMessage(ctx, in, out)
+}
+
+func (h *connectHandler) BatchMessage(ctx context.Context, in *BatchMessageReq, out *EmptyReply) error {
+	return h.ConnectHandler.BatchMessage(ctx, in, out)
+}

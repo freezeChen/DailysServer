@@ -23,7 +23,7 @@ func TestWebSocket(t *testing.T) {
 	//		<-timer.C
 	//		timer.Reset(5*time.Second)
 	//		fmt.Println("auth send")
-	//		s.batchPush([]byte("count"), []string{"5"})
+	//		s.BatchPush([]byte("count"), []string{"5"})
 	//	}
 	//}()
 	////time.Timer{
@@ -46,7 +46,7 @@ func TestWebSocket(t *testing.T) {
 	//	id := request.Form["id"]
 	//	fmt.Println("msg:"+strings+",id:", id)
 	//
-	//	s.batchPush([]byte(strings), id)
+	//	s.BatchPush([]byte(strings), id)
 	//})
 	//
 	//http.ListenAndServe(":8888", nil)

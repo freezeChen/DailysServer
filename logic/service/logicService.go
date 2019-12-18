@@ -11,14 +11,14 @@ import (
 )
 
 type LogicService struct {
-	dao *dao.Dao
+	dao     *dao.Dao
 }
 
-func NewLogicService(c *conf.Config) *LogicService {
+func NewLogicService(c *conf.Config, ) *LogicService {
 	return &LogicService{dao: dao.New(c)}
 }
 
-func (svc *LogicService) SendMessage(req *proto.MessageReq) error {
+func (svc *LogicService) SaveMessage(req *proto.MessageReq) error {
 	now := jsontime.Now()
 	var content = &models.Message{
 		Id:          snowflake.GenID(),
@@ -109,4 +109,9 @@ func (svc *LogicService) SendMessage(req *proto.MessageReq) error {
 		}
 	}
 
+	if err = session.Commit(); err != nil {
+		return err
+	}
+
+	return nil
 }

@@ -14,6 +14,7 @@ import (
 	"DailysServer/proto"
 
 	"github.com/freezeChen/studio-library/zlog"
+	"github.com/micro/go-micro/client"
 )
 
 const (
@@ -22,63 +23,37 @@ const (
 )
 
 type Server struct {
-
-	bucket *Bucket
-	round  *Round
+	Bucket      *Bucket
+	round       *Round
+	logicClient proto.LogicService
 }
 
 func NewServer(c *conf.Config) *Server {
 	return &Server{
-		bucket: NewBucket(),
-		round:  NewRound(),
+		Bucket:      NewBucket(),
+		round:       NewRound(),
+		logicClient: proto.NewLogicService("vip.frozen.srv.logic", client.DefaultClient),
 	}
 
 }
 
-//func (s *Server) Start() {
-//	micro.NewService()
-//
-//	service := web.NewService(
-//		web.Name("vip.frozen.api.mail"),
-//		web.RegisterTTL(75*time.Second),
-//		web.Address(":9091"),
-//		web.RegisterInterval(60*time.Second),
-//	)
-//
-//	if err := service.Init(); err != nil {
-//		panic(err)
-//		return
-//	}
-//
-//	service.HandleFunc("/mail/socket", func(writer http.ResponseWriter, request *http.Request) {
-//		InitWebSocket(s, writer, request)
-//	})
-//
-//	go func() {
-//		if err := service.Run(); err != nil {
-//			panic(err)
-//			return
-//		}
-//	}()
-//}
-
-func (s *Server) batchPush(ids []int64, notice []byte) {
+func (server *Server) BatchPush(ids []int64, notice []byte) {
 	var msg = new(proto.Proto)
 	msg.Opr = proto.OpSendMsg
 
 	msg.Body = notice
 
 	for _, v := range ids {
-		ch := s.bucket.Get(v)
+		ch := server.Bucket.Get(v)
 		if ch != nil {
-			zlog.Debug("push")
+			zlog.Debug("Push")
 			ch.Push(msg)
 		}
 	}
 }
 
-func (s *Server) push(id int64, notice []byte) {
-	if ch := s.bucket.Get(id); ch != nil {
+func (server *Server) Push(id int64, notice []byte) {
+	if ch := server.Bucket.Get(id); ch != nil {
 		var msg = new(proto.Proto)
 		msg.Opr = proto.OpSendMsg
 		msg.Body = notice
@@ -87,7 +62,17 @@ func (s *Server) push(id int64, notice []byte) {
 
 }
 
-func (s *Server) Operate(ctx context.Context, p *proto.Proto) error {
-	zlog.Debugf("Operate:%v",p)
+func (server *Server) Operate(ctx context.Context, p *proto.Proto) error {
+	zlog.Debugf("Operate:%v", p)
 	return nil
+}
+
+func (server *Server) Connect(ctx context.Context, sid string, uid int64) error {
+	_, err := server.logicClient.Connect(ctx, &proto.ConnectReq{Uid: uid, Sid: sid})
+	return err
+}
+
+func (server *Server) DisConnect(ctx context.Context, sid string, uid int64) error {
+	_, err := server.logicClient.DisConnect(ctx, &proto.DisConnectReq{Uid: uid, Sid: sid})
+	return err
 }

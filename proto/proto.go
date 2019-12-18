@@ -12,7 +12,6 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/golang/glog"
 	"github.com/gorilla/websocket"
 )
 
@@ -129,8 +128,6 @@ func (p *Proto) ReadTCP(r *bufio.Reader) (err error) {
 	p.Ver = int32(binary.BigEndian.Uint16(headBuf[VerOffset:OperationOffset]))
 	p.Opr = int32(binary.BigEndian.Uint32(headBuf[OperationOffset:SeqIdOffset]))
 	p.Seq = int32(binary.BigEndian.Uint32(headBuf[SeqIdOffset:]))
-
-	glog.Info("proto:", p)
 
 	if packLen > MaxPackSize {
 		return ErrMsgPackLen
