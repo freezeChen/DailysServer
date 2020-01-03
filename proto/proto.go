@@ -69,20 +69,8 @@ const (
 	// OpProtoFinish proto finish
 	OpProtoFinish = int32(11)
 
-	// OpChangeRoom change room
-	OpChangeRoom = int32(12)
-	// OpChangeRoomReply change room reply
-	OpChangeRoomReply = int32(13)
-
-	// OpSub subscribe operation
-	OpSub = int32(14)
-	// OpSubReply subscribe operation
-	OpSubReply = int32(15)
-
-	// OpUnsub unsubscribe operation
-	OpUnsub = int32(16)
-	// OpUnsubReply unsubscribe operation reply
-	OpUnsubReply = int32(17)
+	OpContact      = int32(12)
+	OpContactReply = int32(13)
 )
 
 var (
@@ -93,7 +81,6 @@ var (
 	ErrMsgHeaderLen = errors.New("default Server codec header length error")
 	ErrMsgNotCheck  = errors.New("connect not check")
 )
-
 
 /**
 协议 [0 0 0 0, 0 0, 0 0, 0 0 0 0, 0 0 0 0, ...]
@@ -162,8 +149,6 @@ func (p *Proto) WriteTCP(w *bufio.Writer) (err error) {
 	err = w.Flush()
 	return
 }
-
-
 
 func (p *Proto) ReadWebSocket(ws *websocket.Conn) (err error) {
 	var (

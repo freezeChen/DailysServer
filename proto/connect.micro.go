@@ -36,6 +36,7 @@ var _ server.Option
 type ConnectService interface {
 	PushMessage(ctx context.Context, in *PushMessageReq, opts ...client.CallOption) (*EmptyReply, error)
 	BatchMessage(ctx context.Context, in *BatchMessageReq, opts ...client.CallOption) (*EmptyReply, error)
+	PushContact(ctx context.Context, in *PushContactReq, opts ...client.CallOption) (*EmptyReply, error)
 }
 
 type connectService struct {
@@ -76,17 +77,29 @@ func (c *connectService) BatchMessage(ctx context.Context, in *BatchMessageReq, 
 	return out, nil
 }
 
+func (c *connectService) PushContact(ctx context.Context, in *PushContactReq, opts ...client.CallOption) (*EmptyReply, error) {
+	req := c.c.NewRequest(c.name, "Connect.pushContact", in)
+	out := new(EmptyReply)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for Connect service
 
 type ConnectHandler interface {
 	PushMessage(context.Context, *PushMessageReq, *EmptyReply) error
 	BatchMessage(context.Context, *BatchMessageReq, *EmptyReply) error
+	PushContact(context.Context, *PushContactReq, *EmptyReply) error
 }
 
 func RegisterConnectHandler(s server.Server, hdlr ConnectHandler, opts ...server.HandlerOption) error {
 	type connect interface {
 		PushMessage(ctx context.Context, in *PushMessageReq, out *EmptyReply) error
 		BatchMessage(ctx context.Context, in *BatchMessageReq, out *EmptyReply) error
+		PushContact(ctx context.Context, in *PushContactReq, out *EmptyReply) error
 	}
 	type Connect struct {
 		connect
@@ -105,4 +118,8 @@ func (h *connectHandler) PushMessage(ctx context.Context, in *PushMessageReq, ou
 
 func (h *connectHandler) BatchMessage(ctx context.Context, in *BatchMessageReq, out *EmptyReply) error {
 	return h.ConnectHandler.BatchMessage(ctx, in, out)
+}
+
+func (h *connectHandler) PushContact(ctx context.Context, in *PushContactReq, out *EmptyReply) error {
+	return h.ConnectHandler.PushContact(ctx, in, out)
 }

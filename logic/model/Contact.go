@@ -13,3 +13,12 @@ type Contact struct {
 func (Contact) TableName() string {
 	return "contact"
 }
+
+type ContactVo struct {
+	Uid      int64
+	UserName string
+	Mid      int64
+	Content  string
+	Online   bool
+	Time     jsontime.JsonTime
+}

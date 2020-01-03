@@ -64,6 +64,15 @@ func (server *Server) Push(id int64, notice []byte) {
 
 }
 
+func (server *Server) PushContact(id int64, notice []byte) {
+	if ch := server.Bucket.Get(id); ch != nil {
+		var msg = new(proto.Proto)
+		msg.Opr = proto.OpContact
+		msg.Body = notice
+		ch.Push(msg)
+	}
+}
+
 func (server *Server) Operate(ctx context.Context, p *proto.Proto) (err error) {
 
 	switch p.Opr {

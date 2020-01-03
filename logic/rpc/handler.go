@@ -27,8 +27,20 @@ func (l *LogicHandler) SendMessage(ctx context.Context, req *proto.MessageReq, r
 
 }
 
-func (l *LogicHandler) Connect(context.Context, *proto.ConnectReq, *proto.ConnectReply) error {
-	panic("implement me")
+func (l *LogicHandler) Connect(ctx context.Context, req *proto.ConnectReq, reply *proto.ConnectReply) error {
+	err := l.svc.Online(req.Sid, req.Uid)
+	if err != nil {
+		return err
+	}
+
+	list, err := l.svc.GetContactList(req.Uid)
+	if err == nil {
+		//l.connClient.PushMessage(ctx,&proto.PushMessageReq{})
+	}
+
+
+
+	return err
 }
 
 func (l *LogicHandler) DisConnect(context.Context, *proto.DisConnectReq, *proto.DisConnectReply) error {

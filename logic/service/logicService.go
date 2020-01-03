@@ -116,6 +116,15 @@ func (svc *LogicService) SaveMessage(req *proto.MessageReq) error {
 	return nil
 }
 
-func (svc *LogicService) Online(sid string, uid string) {
+//获取联系人列表
+func (svc *LogicService) GetContactList(uid int64) ([]*models.ContactVo, error) {
+	return svc.dao.GetContactList(uid)
+}
 
+func (svc *LogicService) Online(sid string, uid int64) error {
+	err := svc.dao.Online(sid, uid)
+	if err != nil {
+		return err
+	}
+	return err
 }

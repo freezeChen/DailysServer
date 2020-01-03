@@ -11,6 +11,11 @@ type ConnectHandler struct {
 	server *connect.Server
 }
 
+func (c *ConnectHandler) PushContact(ctx context.Context, req *proto.PushContactReq, reply *proto.EmptyReply) error {
+	c.server.PushContact(req.Uid, []byte(req.Content))
+	return nil
+}
+
 func NewConnectHandler(conn *connect.Server) *ConnectHandler {
 	return &ConnectHandler{
 		server: conn,
