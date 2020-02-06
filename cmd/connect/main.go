@@ -4,12 +4,12 @@ import (
 	"DailysServer/connect"
 	"DailysServer/connect/conf"
 	"DailysServer/connect/grpc"
-
 	"github.com/freezeChen/studio-library/zlog"
 )
 
 
 func main() {
+
 	if err := conf.Init(); err != nil {
 		panic(err)
 	}

@@ -71,6 +71,8 @@ const (
 
 	OpContact      = int32(12)
 	OpContactReply = int32(13)
+
+	OpConversion = int32(14)
 )
 
 var (

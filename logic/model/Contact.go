@@ -22,3 +22,4 @@ type ContactVo struct {
 	Online   bool
 	Time     jsontime.JsonTime
 }
+

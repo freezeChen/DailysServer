@@ -7,38 +7,55 @@ import "github.com/gogo/protobuf/gogoproto/gogo.proto";
 import "proto.proto";
 
 service logic {
-	rpc sendMessage (MessageReq) returns (EmptyReply);
+    rpc SendMessage (MessageReq) returns (EmptyReply);
 
-	rpc connect (connectReq) returns (connectReply);
+    rpc Connect (connectReq) returns (connectReply);
 
-	rpc disConnect (disConnectReq) returns (disConnectReply);
-}
+    rpc DisConnect (disConnectReq) returns (disConnectReply);
 
-
-message EmptyReply {
-
+    rpc GetConversionList (ConversionListReq) returns (ConversionListReply);
 }
 
 
 message connectReq {
-	string sid = 1;
-	int64 uid = 2;
+    string sid = 1;
+    int64 uid = 2;
 }
 
 message connectReply {
 }
 
 message disConnectReq {
-	string sid = 1;
-	int64 uid = 2;
+    string sid = 1;
+    int64 uid = 2;
 }
 
 message disConnectReply {
 }
 
 message MessageReq {
-	int64 senderId = 1; //发送者Id
-	int64 recipientId = 2; //接受者Id
-	int64 type = 3; //消息类型(1:普通文本)
-	string content = 4; //消息内容
+    int64 senderId = 1; //发送者Id
+    int64 recipientId = 2; //接受者Id
+    int64 type = 3; //消息类型(1:普通文本)
+    string content = 4; //消息内容
 }
+
+message ConversionListReq {
+    int64 uid = 1;
+}
+
+message ConversionListReply {
+    repeated Conversion conversion = 1;
+}
+
+
+message Conversion {
+    int64 uid = 1;
+    string userName = 2;
+    int64 mid = 3;
+    string content = 4;
+    bool online = 5;
+    string time = 6;
+}
+
+

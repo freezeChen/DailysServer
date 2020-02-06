@@ -9,14 +9,14 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/micro/go-micro"
-	"github.com/micro/go-micro/service/grpc"
 )
 
 func New(s *connect.Server) {
 	conf.Conf.RpcServer.Id = uuid.New().String()
-	service := grpc.NewService(
+
+	service := micro.NewService(
 		micro.Name(conf.Conf.RpcServer.Name),
-		micro.Metadata(map[string]string{"id": conf.Conf.RpcServer.Id}),
+		//micro.Metadata(map[string]string{"id": conf.Conf.RpcServer.Id}),
 		micro.RegisterTTL(time.Duration(conf.Conf.RpcServer.TTL)*time.Second),
 		micro.RegisterInterval(time.Duration(conf.Conf.RpcServer.Interval)*time.Second),
 	)

@@ -9,6 +9,7 @@ package connect
 import (
 	"context"
 	"encoding/json"
+	"github.com/micro/go-micro/client"
 	"time"
 
 	"DailysServer/connect/conf"
@@ -16,7 +17,6 @@ import (
 	"DailysServer/proto"
 
 	"github.com/freezeChen/studio-library/zlog"
-	"github.com/micro/go-micro/client"
 )
 
 const (
@@ -32,13 +32,18 @@ type Server struct {
 
 func NewServer(c *conf.Config) *Server {
 	return &Server{
-		Bucket:      NewBucket(),
-		round:       NewRound(),
-		logicClient: proto.NewLogicService("vip.frozen.srv.logic", client.DefaultClient),
+		Bucket: NewBucket(),
+		round:  NewRound(),
 	}
 
 }
 
+func (server *Server) LogicClient() proto.LogicService {
+	if server.logicClient == nil {
+		server.logicClient = proto.NewLogicService("go.micro.srv.logic", client.DefaultClient)
+	}
+	return server.logicClient
+}
 func (server *Server) BatchPush(ids []int64, notice []byte) {
 	var msg = new(proto.Proto)
 	msg.Opr = proto.OpSendMsg
@@ -73,7 +78,7 @@ func (server *Server) PushContact(id int64, notice []byte) {
 	}
 }
 
-func (server *Server) Operate(ctx context.Context, p *proto.Proto) (err error) {
+func (server *Server) Operate(ctx context.Context, p *proto.Proto, ch *Channel) (err error) {
 
 	switch p.Opr {
 	case proto.OpSendMsg:
@@ -82,12 +87,30 @@ func (server *Server) Operate(ctx context.Context, p *proto.Proto) (err error) {
 		if err != nil {
 			return
 		}
-		_, err = server.logicClient.SendMessage(ctx, &proto.MessageReq{
+		_, err = server.LogicClient().SendMessage(ctx, &proto.MessageReq{
 			SenderId:    msg.SenderId,
 			RecipientId: msg.RecipientId,
 			Type:        msg.Type,
 			Content:     msg.Content,
 		})
+	case proto.OpConversion:
+		list, err := server.LogicClient().GetConversionList(ctx, &proto.ConversionListReq{
+			Uid: ch.Id,
+		})
+		if err != nil {
+			return err
+		}
+
+		var msg proto.Proto
+
+		jsonStr, err := json.Marshal(list)
+		if err != nil {
+			return err
+		}
+		msg.Opr = proto.OpConversion
+		msg.Body = jsonStr
+		ch.Push(&msg)
+
 	}
 
 	return

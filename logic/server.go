@@ -13,7 +13,7 @@ import (
 
 func New(c *conf.RpcServer) {
 	s := micro.NewService(
-		micro.Name(c.Name),
+		micro.Name(conf.GetConf().RpcServer.Name),
 		micro.RegisterTTL(time.Duration(c.TTL)*time.Second),
 		micro.RegisterInterval(time.Duration(c.Interval)*time.Second))
 
@@ -23,9 +23,7 @@ func New(c *conf.RpcServer) {
 
 	logicService := service.NewLogicService(conf.GetConf())
 
-
-
-	if err := proto.RegisterLogicHandler(s.Server(), rpc.NewLogicHandler(logicService,connectRpc)); err != nil {
+	if err := proto.RegisterLogicHandler(s.Server(), rpc.NewLogicHandler(logicService, connectRpc)); err != nil {
 		panic(err)
 		return
 	}

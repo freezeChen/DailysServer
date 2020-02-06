@@ -1,8 +1,22 @@
 appName: logic
 rpcServer:
-  name: 'vip.frozen.srv.logic'
+  name: "go.micro.srv.logic"
   ttl: 45
   interval: 60
+mysql:
+  source: "root:dailys@tcp(daily:3306)/daily?timeout=5s&readTimeout=5s&writeTimeout=5s&loc=Local&charset=utf8,utf8mb4"
+  active: 2
+  idle: 1
+  show: true
+redis:
+  addr: "daily:6379"
+  auth: "Wanwan"
+  active: 100
+  idle: 20
+  dialTimeout: "100ms"
+  readTimeout: "100ms"
+  writeTimeout: "100ms"
+  idleTimeout: "100ms"
 webSocket:
   addr: ':7001'
 log:

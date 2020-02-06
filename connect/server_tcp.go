@@ -135,7 +135,7 @@ func (server *Server) serverTCP(c *conf.TCPConfig, conn *net.TCPConn, r int) {
 				msg.Opr = proto.OpHeartbeatReply
 				msg.Body = nil
 			} else {
-				if err := server.Operate(ctx, msg); err != nil {
+				if err := server.Operate(ctx, msg, nil); err != nil {
 					break
 				}
 			}

@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"math"
 	"net/http"
+	"strconv"
 	"time"
 
 	"DailysServer/pkg/timer"
@@ -105,9 +106,11 @@ func ServeWebSocket(srv *Server, ws *websocket.Conn, rn int) {
 			tim.Set(timeData, _HeartBeat)
 			msg.Opr = proto.OpHeartbeatReply
 			msg.Body = nil
-			zlog.Debug("ping")
+			zlog.Debug("heartbeat")
 		} else {
-			if err = srv.Operate(ctx, msg); err != nil {
+
+			if err = srv.Operate(ctx, msg, ch); err != nil {
+				zlog.Debugf("operate (%v)", err)
 				break
 			}
 		}
@@ -162,6 +165,15 @@ func (server *Server) AuthWebSocket(ctx context.Context, ws *websocket.Conn, msg
 	fmt.Println("auth")
 	err = msg.ReadWebSocket(ws)
 	if err != nil {
+		return
+	}
+	key, err = strconv.ParseInt(string(msg.Body), 10, 64)
+	if err != nil {
+		return
+	}
+
+	msg.Opr = proto.OpAuthReply
+	if err = msg.WriteWebSocket(ws); err != nil {
 		return
 	}
 

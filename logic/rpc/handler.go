@@ -25,6 +25,7 @@ func (l *LogicHandler) SendMessage(ctx context.Context, req *proto.MessageReq, r
 		return err
 	}
 
+	return nil
 }
 
 func (l *LogicHandler) Connect(ctx context.Context, req *proto.ConnectReq, reply *proto.ConnectReply) error {
@@ -33,14 +34,22 @@ func (l *LogicHandler) Connect(ctx context.Context, req *proto.ConnectReq, reply
 		return err
 	}
 
-	list, err := l.svc.GetContactList(req.Uid)
-	if err == nil {
-		//l.connClient.PushMessage(ctx,&proto.PushMessageReq{})
-	}
-
-
+	//list,err := l.svc.GetContactList(req.Uid)
+	//if err == nil {
+	//	//l.connClient.PushMessage(ctx,&proto.PushMessageReq{})
+	//}
 
 	return err
+}
+
+//获取会话列表
+func (l *LogicHandler) GetConversionList(ctx context.Context, req *proto.ConversionListReq, reply *proto.ConversionListReply) error {
+	list, err := l.svc.GetContactList(req.Uid)
+	if err != nil {
+		return err
+	}
+	reply.Conversion = list
+	return nil
 }
 
 func (l *LogicHandler) DisConnect(context.Context, *proto.DisConnectReq, *proto.DisConnectReply) error {

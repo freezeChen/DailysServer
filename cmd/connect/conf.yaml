@@ -1,6 +1,6 @@
 appName: connect
 rpcServer:
-  name: 'vip.frozen.srv.connect'
+  name: "go.micro.srv.connect"
   ttl: 45
   interval: 60
 webSocket:

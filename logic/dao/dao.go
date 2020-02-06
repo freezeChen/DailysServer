@@ -1,6 +1,7 @@
 package dao
 
 import (
+	"DailysServer/proto"
 	"context"
 	"fmt"
 
@@ -52,8 +53,8 @@ func (d *Dao) GetContact(ownerId, otherId int64) *models.Contact {
 	return &item
 }
 
-func (d *Dao) GetContactList(uid int64) (list []*models.ContactVo, err error) {
-	list = make([]*models.ContactVo, 0)
+func (d *Dao) GetContactList(uid int64) (list []*proto.Conversion, err error) {
+	list = make([]*proto.Conversion, 0)
 	err = d.db.SQL(`select c.other_uid,u.name as userName,c.mid,m.content,m.create_time as time from contact c 
 			join user u on c.other_uid = u.id
 			left join message m on c.mid =m.id
@@ -99,8 +100,8 @@ func (d *Dao) Online(sid string, uid int64) error {
 	return err
 }
 
-func (d *Dao) userOnline(uid string) bool {
+/*func (d *Dao) userOnline(uid string) bool {
 	conn := d.redis.GetConn()
 	defer conn.Close()
 
-}
+}*/

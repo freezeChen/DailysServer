@@ -13,3 +13,8 @@ message Proto {
 	int32 seq = 3 [(gogoproto.jsontag) = "seq"];
 	bytes body = 4 [(gogoproto.jsontag) = "body"];
 }
+
+
+message EmptyReply {
+
+}

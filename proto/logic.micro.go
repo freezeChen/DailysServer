@@ -38,6 +38,7 @@ type LogicService interface {
 	SendMessage(ctx context.Context, in *MessageReq, opts ...client.CallOption) (*EmptyReply, error)
 	Connect(ctx context.Context, in *ConnectReq, opts ...client.CallOption) (*ConnectReply, error)
 	DisConnect(ctx context.Context, in *DisConnectReq, opts ...client.CallOption) (*DisConnectReply, error)
+	GetConversionList(ctx context.Context, in *ConversionListReq, opts ...client.CallOption) (*ConversionListReply, error)
 }
 
 type logicService struct {
@@ -88,12 +89,23 @@ func (c *logicService) DisConnect(ctx context.Context, in *DisConnectReq, opts .
 	return out, nil
 }
 
+func (c *logicService) GetConversionList(ctx context.Context, in *ConversionListReq, opts ...client.CallOption) (*ConversionListReply, error) {
+	req := c.c.NewRequest(c.name, "Logic.GetConversionList", in)
+	out := new(ConversionListReply)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for Logic service
 
 type LogicHandler interface {
 	SendMessage(context.Context, *MessageReq, *EmptyReply) error
 	Connect(context.Context, *ConnectReq, *ConnectReply) error
 	DisConnect(context.Context, *DisConnectReq, *DisConnectReply) error
+	GetConversionList(context.Context, *ConversionListReq, *ConversionListReply) error
 }
 
 func RegisterLogicHandler(s server.Server, hdlr LogicHandler, opts ...server.HandlerOption) error {
@@ -101,6 +113,7 @@ func RegisterLogicHandler(s server.Server, hdlr LogicHandler, opts ...server.Han
 		SendMessage(ctx context.Context, in *MessageReq, out *EmptyReply) error
 		Connect(ctx context.Context, in *ConnectReq, out *ConnectReply) error
 		DisConnect(ctx context.Context, in *DisConnectReq, out *DisConnectReply) error
+		GetConversionList(ctx context.Context, in *ConversionListReq, out *ConversionListReply) error
 	}
 	type Logic struct {
 		logic
@@ -123,4 +136,8 @@ func (h *logicHandler) Connect(ctx context.Context, in *ConnectReq, out *Connect
 
 func (h *logicHandler) DisConnect(ctx context.Context, in *DisConnectReq, out *DisConnectReply) error {
 	return h.LogicHandler.DisConnect(ctx, in, out)
+}
+
+func (h *logicHandler) GetConversionList(ctx context.Context, in *ConversionListReq, out *ConversionListReply) error {
+	return h.LogicHandler.GetConversionList(ctx, in, out)
 }

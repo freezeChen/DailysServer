@@ -1,7 +1,7 @@
 syntax = "proto3";
 
 package proto;
-
+import "proto.proto";
 
 service connect {
 	rpc pushMessage (PushMessageReq) returns (EmptyReply);
@@ -11,10 +11,6 @@ service connect {
 
 
 }
-
-message EmptyReply {
-}
-
 
 message PushMessageReq {
 	int64 Uid = 1;

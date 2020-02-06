@@ -93,14 +93,54 @@ func (m *Proto) GetBody() []byte {
 	return nil
 }
 
+type EmptyReply struct {
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *EmptyReply) Reset()         { *m = EmptyReply{} }
+func (m *EmptyReply) String() string { return proto.CompactTextString(m) }
+func (*EmptyReply) ProtoMessage()    {}
+func (*EmptyReply) Descriptor() ([]byte, []int) {
+	return fileDescriptor_2fcc84b9998d60d8, []int{1}
+}
+func (m *EmptyReply) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *EmptyReply) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_EmptyReply.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalTo(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *EmptyReply) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_EmptyReply.Merge(m, src)
+}
+func (m *EmptyReply) XXX_Size() int {
+	return m.Size()
+}
+func (m *EmptyReply) XXX_DiscardUnknown() {
+	xxx_messageInfo_EmptyReply.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_EmptyReply proto.InternalMessageInfo
+
 func init() {
 	proto.RegisterType((*Proto)(nil), "proto.Proto")
+	proto.RegisterType((*EmptyReply)(nil), "proto.EmptyReply")
 }
 
 func init() { proto.RegisterFile("proto.proto", fileDescriptor_2fcc84b9998d60d8) }
 
 var fileDescriptor_2fcc84b9998d60d8 = []byte{
-	// 168 bytes of a gzipped FileDescriptorProto
+	// 182 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0xe2, 0x2e, 0x28, 0xca, 0x2f,
 	0xc9, 0xd7, 0x03, 0x93, 0x42, 0xac, 0x60, 0x4a, 0x4a, 0x37, 0x3d, 0xb3, 0x24, 0xa3, 0x34, 0x49,
 	0x2f, 0x39, 0x3f, 0x57, 0x3f, 0x3d, 0x3f, 0x3d, 0x5f, 0x1f, 0x2c, 0x9c, 0x54, 0x9a, 0x06, 0xe6,
@@ -109,9 +149,10 @@ var fileDescriptor_2fcc84b9998d60d8 = []byte{
 	0x10, 0x88, 0x00, 0x49, 0xe5, 0x17, 0x14, 0x49, 0x30, 0x21, 0xa4, 0xf2, 0x0b, 0x8a, 0x82, 0x40,
 	0x04, 0x48, 0xaa, 0x38, 0xb5, 0x50, 0x82, 0x19, 0x21, 0x55, 0x9c, 0x5a, 0x18, 0x04, 0x22, 0x84,
 	0x64, 0xb8, 0x58, 0x92, 0xf2, 0x53, 0x2a, 0x25, 0x58, 0x14, 0x18, 0x35, 0x78, 0x9c, 0x38, 0x5e,
-	0xdd, 0x93, 0x07, 0xf3, 0x83, 0xc0, 0xa4, 0x13, 0xcf, 0x89, 0x47, 0x72, 0x8c, 0x17, 0x1e, 0xc9,
-	0x31, 0x3e, 0x78, 0x24, 0xc7, 0x98, 0xc4, 0x06, 0x76, 0x8c, 0x31, 0x20, 0x00, 0x00, 0xff, 0xff,
-	0xbc, 0xaf, 0x33, 0xbd, 0xd1, 0x00, 0x00, 0x00,
+	0xdd, 0x93, 0x07, 0xf3, 0x83, 0xc0, 0xa4, 0x12, 0x0f, 0x17, 0x97, 0x6b, 0x6e, 0x41, 0x49, 0x65,
+	0x50, 0x6a, 0x41, 0x4e, 0xa5, 0x13, 0xcf, 0x89, 0x47, 0x72, 0x8c, 0x17, 0x1e, 0xc9, 0x31, 0x3e,
+	0x78, 0x24, 0xc7, 0x98, 0xc4, 0x06, 0x76, 0x9a, 0x31, 0x20, 0x00, 0x00, 0xff, 0xff, 0x94, 0xeb,
+	0xd6, 0x5d, 0xdf, 0x00, 0x00, 0x00,
 }
 
 func (m *Proto) Marshal() (dAtA []byte, err error) {
@@ -156,6 +197,27 @@ func (m *Proto) MarshalTo(dAtA []byte) (int, error) {
 	return i, nil
 }
 
+func (m *EmptyReply) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalTo(dAtA)
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *EmptyReply) MarshalTo(dAtA []byte) (int, error) {
+	var i int
+	_ = i
+	var l int
+	_ = l
+	if m.XXX_unrecognized != nil {
+		i += copy(dAtA[i:], m.XXX_unrecognized)
+	}
+	return i, nil
+}
+
 func encodeVarintProto(dAtA []byte, offset int, v uint64) int {
 	for v >= 1<<7 {
 		dAtA[offset] = uint8(v&0x7f | 0x80)
@@ -184,6 +246,18 @@ func (m *Proto) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovProto(uint64(l))
 	}
+	if m.XXX_unrecognized != nil {
+		n += len(m.XXX_unrecognized)
+	}
+	return n
+}
+
+func (m *EmptyReply) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
 	if m.XXX_unrecognized != nil {
 		n += len(m.XXX_unrecognized)
 	}
@@ -323,6 +397,60 @@ func (m *Proto) Unmarshal(dAtA []byte) error {
 				m.Body = []byte{}
 			}
 			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipProto(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthProto
+			}
+			if (iNdEx + skippy) < 0 {
+				return ErrInvalidLengthProto
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.XXX_unrecognized = append(m.XXX_unrecognized, dAtA[iNdEx:iNdEx+skippy]...)
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *EmptyReply) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowProto
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: EmptyReply: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: EmptyReply: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
 		default:
 			iNdEx = preIndex
 			skippy, err := skipProto(dAtA[iNdEx:])
