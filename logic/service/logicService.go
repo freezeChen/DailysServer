@@ -117,7 +117,7 @@ func (svc *LogicService) SaveMessage(req *proto.MessageReq) error {
 }
 
 //获取联系人列表
-func (svc *LogicService) GetContactList(uid int64) ([]*proto.Conversion, error) {
+func (svc *LogicService) GetContactList(uid int64) ([]*proto.Conversation, error) {
 	return svc.dao.GetContactList(uid)
 }
 

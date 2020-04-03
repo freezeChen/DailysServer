@@ -15,6 +15,7 @@
 
 
 cmd/connect/connect
+cmd/logic/logic
 *.log
 
 go.sum

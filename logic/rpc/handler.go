@@ -43,12 +43,12 @@ func (l *LogicHandler) Connect(ctx context.Context, req *proto.ConnectReq, reply
 }
 
 //获取会话列表
-func (l *LogicHandler) GetConversionList(ctx context.Context, req *proto.ConversionListReq, reply *proto.ConversionListReply) error {
+func (l *LogicHandler) GetConversationList(ctx context.Context, req *proto.ConversationListReq, reply *proto.ConversationListReply) error {
 	list, err := l.svc.GetContactList(req.Uid)
 	if err != nil {
 		return err
 	}
-	reply.Conversion = list
+	reply.Conversation = list
 	return nil
 }
 

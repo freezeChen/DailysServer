@@ -283,25 +283,25 @@ func (m *MessageReq) GetContent() string {
 	return ""
 }
 
-type ConversionListReq struct {
+type ConversationListReq struct {
 	Uid                  int64    `protobuf:"varint,1,opt,name=uid,proto3" json:"uid,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *ConversionListReq) Reset()         { *m = ConversionListReq{} }
-func (m *ConversionListReq) String() string { return proto.CompactTextString(m) }
-func (*ConversionListReq) ProtoMessage()    {}
-func (*ConversionListReq) Descriptor() ([]byte, []int) {
+func (m *ConversationListReq) Reset()         { *m = ConversationListReq{} }
+func (m *ConversationListReq) String() string { return proto.CompactTextString(m) }
+func (*ConversationListReq) ProtoMessage()    {}
+func (*ConversationListReq) Descriptor() ([]byte, []int) {
 	return fileDescriptor_60207fea82c31ca8, []int{5}
 }
-func (m *ConversionListReq) XXX_Unmarshal(b []byte) error {
+func (m *ConversationListReq) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *ConversionListReq) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *ConversationListReq) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_ConversionListReq.Marshal(b, m, deterministic)
+		return xxx_messageInfo_ConversationListReq.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalTo(b)
@@ -311,44 +311,44 @@ func (m *ConversionListReq) XXX_Marshal(b []byte, deterministic bool) ([]byte, e
 		return b[:n], nil
 	}
 }
-func (m *ConversionListReq) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_ConversionListReq.Merge(m, src)
+func (m *ConversationListReq) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ConversationListReq.Merge(m, src)
 }
-func (m *ConversionListReq) XXX_Size() int {
+func (m *ConversationListReq) XXX_Size() int {
 	return m.Size()
 }
-func (m *ConversionListReq) XXX_DiscardUnknown() {
-	xxx_messageInfo_ConversionListReq.DiscardUnknown(m)
+func (m *ConversationListReq) XXX_DiscardUnknown() {
+	xxx_messageInfo_ConversationListReq.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_ConversionListReq proto.InternalMessageInfo
+var xxx_messageInfo_ConversationListReq proto.InternalMessageInfo
 
-func (m *ConversionListReq) GetUid() int64 {
+func (m *ConversationListReq) GetUid() int64 {
 	if m != nil {
 		return m.Uid
 	}
 	return 0
 }
 
-type ConversionListReply struct {
-	Conversion           []*Conversion `protobuf:"bytes,1,rep,name=conversion,proto3" json:"conversion,omitempty"`
-	XXX_NoUnkeyedLiteral struct{}      `json:"-"`
-	XXX_unrecognized     []byte        `json:"-"`
-	XXX_sizecache        int32         `json:"-"`
+type ConversationListReply struct {
+	Conversation         []*Conversation `protobuf:"bytes,1,rep,name=conversation,proto3" json:"conversation,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}        `json:"-"`
+	XXX_unrecognized     []byte          `json:"-"`
+	XXX_sizecache        int32           `json:"-"`
 }
 
-func (m *ConversionListReply) Reset()         { *m = ConversionListReply{} }
-func (m *ConversionListReply) String() string { return proto.CompactTextString(m) }
-func (*ConversionListReply) ProtoMessage()    {}
-func (*ConversionListReply) Descriptor() ([]byte, []int) {
+func (m *ConversationListReply) Reset()         { *m = ConversationListReply{} }
+func (m *ConversationListReply) String() string { return proto.CompactTextString(m) }
+func (*ConversationListReply) ProtoMessage()    {}
+func (*ConversationListReply) Descriptor() ([]byte, []int) {
 	return fileDescriptor_60207fea82c31ca8, []int{6}
 }
-func (m *ConversionListReply) XXX_Unmarshal(b []byte) error {
+func (m *ConversationListReply) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *ConversionListReply) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *ConversationListReply) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_ConversionListReply.Marshal(b, m, deterministic)
+		return xxx_messageInfo_ConversationListReply.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalTo(b)
@@ -358,26 +358,26 @@ func (m *ConversionListReply) XXX_Marshal(b []byte, deterministic bool) ([]byte,
 		return b[:n], nil
 	}
 }
-func (m *ConversionListReply) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_ConversionListReply.Merge(m, src)
+func (m *ConversationListReply) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ConversationListReply.Merge(m, src)
 }
-func (m *ConversionListReply) XXX_Size() int {
+func (m *ConversationListReply) XXX_Size() int {
 	return m.Size()
 }
-func (m *ConversionListReply) XXX_DiscardUnknown() {
-	xxx_messageInfo_ConversionListReply.DiscardUnknown(m)
+func (m *ConversationListReply) XXX_DiscardUnknown() {
+	xxx_messageInfo_ConversationListReply.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_ConversionListReply proto.InternalMessageInfo
+var xxx_messageInfo_ConversationListReply proto.InternalMessageInfo
 
-func (m *ConversionListReply) GetConversion() []*Conversion {
+func (m *ConversationListReply) GetConversation() []*Conversation {
 	if m != nil {
-		return m.Conversion
+		return m.Conversation
 	}
 	return nil
 }
 
-type Conversion struct {
+type Conversation struct {
 	Uid                  int64    `protobuf:"varint,1,opt,name=uid,proto3" json:"uid,omitempty"`
 	UserName             string   `protobuf:"bytes,2,opt,name=userName,proto3" json:"userName,omitempty"`
 	Mid                  int64    `protobuf:"varint,3,opt,name=mid,proto3" json:"mid,omitempty"`
@@ -389,18 +389,18 @@ type Conversion struct {
 	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *Conversion) Reset()         { *m = Conversion{} }
-func (m *Conversion) String() string { return proto.CompactTextString(m) }
-func (*Conversion) ProtoMessage()    {}
-func (*Conversion) Descriptor() ([]byte, []int) {
+func (m *Conversation) Reset()         { *m = Conversation{} }
+func (m *Conversation) String() string { return proto.CompactTextString(m) }
+func (*Conversation) ProtoMessage()    {}
+func (*Conversation) Descriptor() ([]byte, []int) {
 	return fileDescriptor_60207fea82c31ca8, []int{7}
 }
-func (m *Conversion) XXX_Unmarshal(b []byte) error {
+func (m *Conversation) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *Conversion) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *Conversation) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_Conversion.Marshal(b, m, deterministic)
+		return xxx_messageInfo_Conversation.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalTo(b)
@@ -410,54 +410,54 @@ func (m *Conversion) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 		return b[:n], nil
 	}
 }
-func (m *Conversion) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_Conversion.Merge(m, src)
+func (m *Conversation) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Conversation.Merge(m, src)
 }
-func (m *Conversion) XXX_Size() int {
+func (m *Conversation) XXX_Size() int {
 	return m.Size()
 }
-func (m *Conversion) XXX_DiscardUnknown() {
-	xxx_messageInfo_Conversion.DiscardUnknown(m)
+func (m *Conversation) XXX_DiscardUnknown() {
+	xxx_messageInfo_Conversation.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_Conversion proto.InternalMessageInfo
+var xxx_messageInfo_Conversation proto.InternalMessageInfo
 
-func (m *Conversion) GetUid() int64 {
+func (m *Conversation) GetUid() int64 {
 	if m != nil {
 		return m.Uid
 	}
 	return 0
 }
 
-func (m *Conversion) GetUserName() string {
+func (m *Conversation) GetUserName() string {
 	if m != nil {
 		return m.UserName
 	}
 	return ""
 }
 
-func (m *Conversion) GetMid() int64 {
+func (m *Conversation) GetMid() int64 {
 	if m != nil {
 		return m.Mid
 	}
 	return 0
 }
 
-func (m *Conversion) GetContent() string {
+func (m *Conversation) GetContent() string {
 	if m != nil {
 		return m.Content
 	}
 	return ""
 }
 
-func (m *Conversion) GetOnline() bool {
+func (m *Conversation) GetOnline() bool {
 	if m != nil {
 		return m.Online
 	}
 	return false
 }
 
-func (m *Conversion) GetTime() string {
+func (m *Conversation) GetTime() string {
 	if m != nil {
 		return m.Time
 	}
@@ -470,42 +470,43 @@ func init() {
 	proto.RegisterType((*DisConnectReq)(nil), "proto.disConnectReq")
 	proto.RegisterType((*DisConnectReply)(nil), "proto.disConnectReply")
 	proto.RegisterType((*MessageReq)(nil), "proto.MessageReq")
-	proto.RegisterType((*ConversionListReq)(nil), "proto.ConversionListReq")
-	proto.RegisterType((*ConversionListReply)(nil), "proto.ConversionListReply")
-	proto.RegisterType((*Conversion)(nil), "proto.Conversion")
+	proto.RegisterType((*ConversationListReq)(nil), "proto.ConversationListReq")
+	proto.RegisterType((*ConversationListReply)(nil), "proto.ConversationListReply")
+	proto.RegisterType((*Conversation)(nil), "proto.Conversation")
 }
 
 func init() { proto.RegisterFile("logic.proto", fileDescriptor_60207fea82c31ca8) }
 
 var fileDescriptor_60207fea82c31ca8 = []byte{
-	// 427 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x94, 0x52, 0xcd, 0x6e, 0xd4, 0x30,
-	0x10, 0x96, 0x49, 0x77, 0xdb, 0x4e, 0xca, 0xcf, 0xba, 0xa8, 0xb2, 0x7c, 0x58, 0x45, 0x91, 0x90,
-	0xf6, 0xc2, 0x16, 0xba, 0x37, 0x8e, 0x54, 0x08, 0x56, 0x02, 0x0e, 0x79, 0x83, 0x6e, 0x32, 0x04,
-	0x4b, 0x89, 0x1d, 0x62, 0x07, 0x91, 0xd7, 0xe0, 0xa9, 0x38, 0xf2, 0x08, 0x68, 0x1f, 0x82, 0x33,
-	0xf2, 0x6c, 0x7e, 0xb6, 0x2d, 0x7b, 0xe8, 0xc9, 0xf3, 0x7d, 0xfe, 0x66, 0xec, 0xf9, 0x66, 0x20,
-	0x2c, 0x4c, 0xae, 0xd2, 0x65, 0x55, 0x1b, 0x67, 0xf8, 0x84, 0x0e, 0xf9, 0x32, 0x57, 0xee, 0x6b,
-	0xb3, 0x59, 0xa6, 0xa6, 0xbc, 0xcc, 0x4d, 0x6e, 0x2e, 0x89, 0xde, 0x34, 0x5f, 0x08, 0x11, 0xa0,
-	0x68, 0x97, 0x25, 0x43, 0x3a, 0x76, 0x20, 0x7e, 0x05, 0x90, 0x1a, 0xad, 0x31, 0x75, 0x09, 0x7e,
-	0xe3, 0xcf, 0x20, 0xb0, 0x2a, 0x13, 0x2c, 0x62, 0x8b, 0xd3, 0xc4, 0x87, 0x9e, 0x69, 0x54, 0x26,
-	0x1e, 0x45, 0x6c, 0x11, 0x24, 0x3e, 0x8c, 0x9f, 0xc0, 0xd9, 0x90, 0x51, 0x15, 0x6d, 0xbc, 0x82,
-	0xc7, 0x99, 0xb2, 0xd7, 0x0f, 0x2b, 0x32, 0x83, 0xa7, 0xfb, 0x49, 0xbe, 0xce, 0x0f, 0x80, 0x4f,
-	0x68, 0xed, 0x4d, 0x8e, 0xbe, 0x88, 0x84, 0x13, 0x8b, 0x3a, 0xc3, 0x7a, 0xbd, 0xab, 0x14, 0x24,
-	0x03, 0xe6, 0x11, 0x84, 0x35, 0xa6, 0xaa, 0x52, 0xa8, 0xdd, 0xba, 0x2f, 0xbb, 0x4f, 0x71, 0x0e,
-	0x47, 0xae, 0xad, 0x50, 0x04, 0x74, 0x45, 0x31, 0x17, 0x70, 0x9c, 0x1a, 0xed, 0x50, 0x3b, 0x71,
-	0x44, 0x5f, 0xeb, 0x61, 0xfc, 0x02, 0x66, 0xd7, 0x46, 0x7f, 0xc7, 0xda, 0x2a, 0xa3, 0x3f, 0x2a,
-	0xdb, 0x77, 0xd1, 0xa8, 0xfe, 0x6d, 0xfa, 0xf3, 0x07, 0x38, 0xbf, 0x2b, 0xab, 0x8a, 0x96, 0xbf,
-	0x26, 0x07, 0x3b, 0x5a, 0xb0, 0x28, 0x58, 0x84, 0x57, 0xb3, 0x9d, 0xbb, 0xcb, 0x51, 0x9f, 0xec,
-	0x89, 0xe2, 0x9f, 0x0c, 0x60, 0xbc, 0xba, 0xff, 0x94, 0xef, 0xbe, 0xb1, 0x58, 0x7f, 0xbe, 0x29,
-	0x91, 0xda, 0x3b, 0x4d, 0x06, 0xec, 0xd5, 0xa5, 0xca, 0xba, 0xd6, 0x7c, 0x78, 0xb8, 0x33, 0x7e,
-	0x01, 0x53, 0xa3, 0x0b, 0xa5, 0x51, 0x4c, 0x22, 0xb6, 0x38, 0x49, 0x3a, 0x44, 0xfe, 0xa8, 0x12,
-	0xc5, 0x94, 0xe4, 0x14, 0x5f, 0xfd, 0x65, 0x30, 0xa1, 0xe5, 0xe2, 0x2b, 0x08, 0xbd, 0xd7, 0xdd,
-	0x34, 0x78, 0xdf, 0xcc, 0x38, 0x1d, 0xd9, 0x53, 0xef, 0xca, 0xca, 0xb5, 0xbd, 0x0d, 0xc7, 0xdd,
-	0x5a, 0x0c, 0x09, 0xe3, 0x62, 0xc9, 0xf3, 0xbb, 0x94, 0x4f, 0x79, 0x03, 0x30, 0x2e, 0x01, 0x7f,
-	0xde, 0x49, 0x6e, 0x2d, 0x93, 0xbc, 0xf8, 0x0f, 0xeb, 0x73, 0xd7, 0x30, 0x7b, 0x8f, 0xee, 0xf6,
-	0x3c, 0xb8, 0xb8, 0x67, 0x7b, 0x37, 0x4d, 0x29, 0x0f, 0xdc, 0x54, 0x45, 0xfb, 0xf6, 0xec, 0xd7,
-	0x76, 0xce, 0x7e, 0x6f, 0xe7, 0xec, 0xcf, 0x76, 0xce, 0x36, 0x53, 0x12, 0xae, 0xfe, 0x05, 0x00,
-	0x00, 0xff, 0xff, 0xd8, 0xa2, 0xf9, 0xb3, 0x69, 0x03, 0x00, 0x00,
+	// 436 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x94, 0x52, 0x4b, 0x6e, 0xd4, 0x40,
+	0x10, 0x55, 0xe3, 0xcc, 0x24, 0x29, 0x0f, 0x9f, 0xf4, 0x40, 0x64, 0xb5, 0xd0, 0xc8, 0xf2, 0x86,
+	0xd9, 0x30, 0x81, 0xcc, 0x02, 0x89, 0x25, 0x01, 0xa1, 0x48, 0xfc, 0x64, 0x4e, 0x30, 0x63, 0x17,
+	0xa6, 0x25, 0xbb, 0xdb, 0xb8, 0xdb, 0x08, 0xdf, 0x83, 0x43, 0xb1, 0xe4, 0x08, 0x68, 0xce, 0xc1,
+	0x02, 0x75, 0xf9, 0x13, 0xe7, 0xb7, 0x60, 0xe5, 0x7a, 0x55, 0xef, 0x95, 0xbb, 0x5e, 0x15, 0xf8,
+	0xb9, 0xce, 0x64, 0xb2, 0x2a, 0x2b, 0x6d, 0x35, 0x9f, 0xd0, 0x47, 0x3c, 0xcd, 0xa4, 0xfd, 0x5a,
+	0x6f, 0x57, 0x89, 0x2e, 0x4e, 0x32, 0x9d, 0xe9, 0x13, 0x4a, 0x6f, 0xeb, 0x2f, 0x84, 0x08, 0x50,
+	0xd4, 0xaa, 0x84, 0x4f, 0x9f, 0x16, 0x44, 0xcf, 0x00, 0x12, 0xad, 0x14, 0x26, 0x36, 0xc6, 0x6f,
+	0xfc, 0x01, 0x78, 0x46, 0xa6, 0x01, 0x0b, 0xd9, 0xf2, 0x30, 0x76, 0xa1, 0xcb, 0xd4, 0x32, 0x0d,
+	0xee, 0x84, 0x6c, 0xe9, 0xc5, 0x2e, 0x8c, 0xee, 0xc1, 0x6c, 0x50, 0x94, 0x79, 0x13, 0xad, 0xe1,
+	0x6e, 0x2a, 0xcd, 0xd9, 0xff, 0x35, 0x39, 0x82, 0xfb, 0x63, 0x91, 0xeb, 0xf3, 0x03, 0xe0, 0x3d,
+	0x1a, 0xb3, 0xc9, 0xd0, 0x35, 0x11, 0x70, 0x60, 0x50, 0xa5, 0x58, 0x9d, 0xb7, 0x9d, 0xbc, 0x78,
+	0xc0, 0x3c, 0x04, 0xbf, 0xc2, 0x44, 0x96, 0x12, 0x95, 0x3d, 0xef, 0xdb, 0x8e, 0x53, 0x9c, 0xc3,
+	0x9e, 0x6d, 0x4a, 0x0c, 0x3c, 0x2a, 0x51, 0xcc, 0x03, 0xd8, 0x4f, 0xb4, 0xb2, 0xa8, 0x6c, 0xb0,
+	0x47, 0x4f, 0xeb, 0x61, 0xf4, 0x04, 0xe6, 0x67, 0x5a, 0x7d, 0xc7, 0xca, 0x6c, 0xac, 0xd4, 0xea,
+	0x9d, 0x34, 0xfd, 0x1c, 0xb5, 0xec, 0xff, 0x4e, 0xaf, 0xfe, 0x04, 0x8f, 0xae, 0x13, 0xcb, 0xbc,
+	0xe1, 0x2f, 0xc8, 0x93, 0xa1, 0x10, 0xb0, 0xd0, 0x5b, 0xfa, 0xa7, 0xf3, 0xd6, 0xe3, 0xd5, 0x58,
+	0x13, 0x5f, 0x22, 0x46, 0x3f, 0x19, 0xcc, 0xc6, 0xe5, 0xeb, 0x3f, 0x75, 0x4e, 0xd4, 0x06, 0xab,
+	0x0f, 0x9b, 0x02, 0x69, 0xd4, 0xc3, 0x78, 0xc0, 0x8e, 0x5d, 0xc8, 0xb4, 0x1b, 0xd3, 0x85, 0xb7,
+	0x4f, 0xc9, 0x8f, 0x61, 0xaa, 0x55, 0x2e, 0x15, 0x06, 0x93, 0x90, 0x2d, 0x0f, 0xe2, 0x0e, 0x91,
+	0x57, 0xb2, 0xc0, 0x60, 0x4a, 0x74, 0x8a, 0x4f, 0xff, 0x32, 0x98, 0xd0, 0xa1, 0xf1, 0x35, 0xf8,
+	0x9f, 0x51, 0xa5, 0xdd, 0x66, 0xf8, 0x51, 0x37, 0xd2, 0xc5, 0xa6, 0x44, 0x9f, 0x7a, 0x53, 0x94,
+	0xb6, 0x69, 0xed, 0x78, 0x0e, 0xfb, 0xdd, 0x6a, 0x07, 0xc1, 0xc5, 0x91, 0x89, 0xf9, 0xd5, 0x94,
+	0x93, 0xbc, 0x04, 0x78, 0x3d, 0x1c, 0x04, 0x7f, 0xd8, 0x51, 0x2e, 0x1d, 0x96, 0x38, 0xbe, 0x21,
+	0xeb, 0xb4, 0x1f, 0x61, 0xfe, 0x16, 0xed, 0xd5, 0xcd, 0x70, 0x71, 0x83, 0xfd, 0xdd, 0x6e, 0xc5,
+	0xe3, 0x5b, 0x6b, 0x65, 0xde, 0xbc, 0x9a, 0xfd, 0xda, 0x2d, 0xd8, 0xef, 0xdd, 0x82, 0xfd, 0xd9,
+	0x2d, 0xd8, 0x76, 0x4a, 0xd4, 0xf5, 0xbf, 0x00, 0x00, 0x00, 0xff, 0xff, 0x08, 0x8e, 0x44, 0x56,
+	0x7b, 0x03, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -523,7 +524,7 @@ type LogicClient interface {
 	SendMessage(ctx context.Context, in *MessageReq, opts ...grpc.CallOption) (*EmptyReply, error)
 	Connect(ctx context.Context, in *ConnectReq, opts ...grpc.CallOption) (*ConnectReply, error)
 	DisConnect(ctx context.Context, in *DisConnectReq, opts ...grpc.CallOption) (*DisConnectReply, error)
-	GetConversionList(ctx context.Context, in *ConversionListReq, opts ...grpc.CallOption) (*ConversionListReply, error)
+	GetConversationList(ctx context.Context, in *ConversationListReq, opts ...grpc.CallOption) (*ConversationListReply, error)
 }
 
 type logicClient struct {
@@ -536,7 +537,7 @@ func NewLogicClient(cc *grpc.ClientConn) LogicClient {
 
 func (c *logicClient) SendMessage(ctx context.Context, in *MessageReq, opts ...grpc.CallOption) (*EmptyReply, error) {
 	out := new(EmptyReply)
-	err := c.cc.Invoke(ctx, "/proto.logic/sendMessage", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/proto.logic/SendMessage", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -545,7 +546,7 @@ func (c *logicClient) SendMessage(ctx context.Context, in *MessageReq, opts ...g
 
 func (c *logicClient) Connect(ctx context.Context, in *ConnectReq, opts ...grpc.CallOption) (*ConnectReply, error) {
 	out := new(ConnectReply)
-	err := c.cc.Invoke(ctx, "/proto.logic/connect", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/proto.logic/Connect", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -554,16 +555,16 @@ func (c *logicClient) Connect(ctx context.Context, in *ConnectReq, opts ...grpc.
 
 func (c *logicClient) DisConnect(ctx context.Context, in *DisConnectReq, opts ...grpc.CallOption) (*DisConnectReply, error) {
 	out := new(DisConnectReply)
-	err := c.cc.Invoke(ctx, "/proto.logic/disConnect", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/proto.logic/DisConnect", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *logicClient) GetConversionList(ctx context.Context, in *ConversionListReq, opts ...grpc.CallOption) (*ConversionListReply, error) {
-	out := new(ConversionListReply)
-	err := c.cc.Invoke(ctx, "/proto.logic/GetConversionList", in, out, opts...)
+func (c *logicClient) GetConversationList(ctx context.Context, in *ConversationListReq, opts ...grpc.CallOption) (*ConversationListReply, error) {
+	out := new(ConversationListReply)
+	err := c.cc.Invoke(ctx, "/proto.logic/GetConversationList", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -575,7 +576,7 @@ type LogicServer interface {
 	SendMessage(context.Context, *MessageReq) (*EmptyReply, error)
 	Connect(context.Context, *ConnectReq) (*ConnectReply, error)
 	DisConnect(context.Context, *DisConnectReq) (*DisConnectReply, error)
-	GetConversionList(context.Context, *ConversionListReq) (*ConversionListReply, error)
+	GetConversationList(context.Context, *ConversationListReq) (*ConversationListReply, error)
 }
 
 func RegisterLogicServer(s *grpc.Server, srv LogicServer) {
@@ -636,20 +637,20 @@ func _Logic_DisConnect_Handler(srv interface{}, ctx context.Context, dec func(in
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Logic_GetConversionList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ConversionListReq)
+func _Logic_GetConversationList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ConversationListReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(LogicServer).GetConversionList(ctx, in)
+		return srv.(LogicServer).GetConversationList(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/proto.logic/GetConversionList",
+		FullMethod: "/proto.logic/GetConversationList",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(LogicServer).GetConversionList(ctx, req.(*ConversionListReq))
+		return srv.(LogicServer).GetConversationList(ctx, req.(*ConversationListReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -659,20 +660,20 @@ var _Logic_serviceDesc = grpc.ServiceDesc{
 	HandlerType: (*LogicServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "sendMessage",
+			MethodName: "SendMessage",
 			Handler:    _Logic_SendMessage_Handler,
 		},
 		{
-			MethodName: "connect",
+			MethodName: "Connect",
 			Handler:    _Logic_Connect_Handler,
 		},
 		{
-			MethodName: "disConnect",
+			MethodName: "DisConnect",
 			Handler:    _Logic_DisConnect_Handler,
 		},
 		{
-			MethodName: "GetConversionList",
-			Handler:    _Logic_GetConversionList_Handler,
+			MethodName: "GetConversationList",
+			Handler:    _Logic_GetConversationList_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
@@ -827,7 +828,7 @@ func (m *MessageReq) MarshalTo(dAtA []byte) (int, error) {
 	return i, nil
 }
 
-func (m *ConversionListReq) Marshal() (dAtA []byte, err error) {
+func (m *ConversationListReq) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalTo(dAtA)
@@ -837,7 +838,7 @@ func (m *ConversionListReq) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *ConversionListReq) MarshalTo(dAtA []byte) (int, error) {
+func (m *ConversationListReq) MarshalTo(dAtA []byte) (int, error) {
 	var i int
 	_ = i
 	var l int
@@ -853,7 +854,7 @@ func (m *ConversionListReq) MarshalTo(dAtA []byte) (int, error) {
 	return i, nil
 }
 
-func (m *ConversionListReply) Marshal() (dAtA []byte, err error) {
+func (m *ConversationListReply) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalTo(dAtA)
@@ -863,13 +864,13 @@ func (m *ConversionListReply) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *ConversionListReply) MarshalTo(dAtA []byte) (int, error) {
+func (m *ConversationListReply) MarshalTo(dAtA []byte) (int, error) {
 	var i int
 	_ = i
 	var l int
 	_ = l
-	if len(m.Conversion) > 0 {
-		for _, msg := range m.Conversion {
+	if len(m.Conversation) > 0 {
+		for _, msg := range m.Conversation {
 			dAtA[i] = 0xa
 			i++
 			i = encodeVarintLogic(dAtA, i, uint64(msg.Size()))
@@ -886,7 +887,7 @@ func (m *ConversionListReply) MarshalTo(dAtA []byte) (int, error) {
 	return i, nil
 }
 
-func (m *Conversion) Marshal() (dAtA []byte, err error) {
+func (m *Conversation) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalTo(dAtA)
@@ -896,7 +897,7 @@ func (m *Conversion) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *Conversion) MarshalTo(dAtA []byte) (int, error) {
+func (m *Conversation) MarshalTo(dAtA []byte) (int, error) {
 	var i int
 	_ = i
 	var l int
@@ -1041,7 +1042,7 @@ func (m *MessageReq) Size() (n int) {
 	return n
 }
 
-func (m *ConversionListReq) Size() (n int) {
+func (m *ConversationListReq) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -1056,14 +1057,14 @@ func (m *ConversionListReq) Size() (n int) {
 	return n
 }
 
-func (m *ConversionListReply) Size() (n int) {
+func (m *ConversationListReply) Size() (n int) {
 	if m == nil {
 		return 0
 	}
 	var l int
 	_ = l
-	if len(m.Conversion) > 0 {
-		for _, e := range m.Conversion {
+	if len(m.Conversation) > 0 {
+		for _, e := range m.Conversation {
 			l = e.Size()
 			n += 1 + l + sovLogic(uint64(l))
 		}
@@ -1074,7 +1075,7 @@ func (m *ConversionListReply) Size() (n int) {
 	return n
 }
 
-func (m *Conversion) Size() (n int) {
+func (m *Conversation) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -1581,7 +1582,7 @@ func (m *MessageReq) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *ConversionListReq) Unmarshal(dAtA []byte) error {
+func (m *ConversationListReq) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -1604,10 +1605,10 @@ func (m *ConversionListReq) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: ConversionListReq: wiretype end group for non-group")
+			return fmt.Errorf("proto: ConversationListReq: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: ConversionListReq: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: ConversationListReq: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
@@ -1654,7 +1655,7 @@ func (m *ConversionListReq) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *ConversionListReply) Unmarshal(dAtA []byte) error {
+func (m *ConversationListReply) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -1677,15 +1678,15 @@ func (m *ConversionListReply) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: ConversionListReply: wiretype end group for non-group")
+			return fmt.Errorf("proto: ConversationListReply: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: ConversionListReply: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: ConversationListReply: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Conversion", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field Conversation", wireType)
 			}
 			var msglen int
 			for shift := uint(0); ; shift += 7 {
@@ -1712,8 +1713,8 @@ func (m *ConversionListReply) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Conversion = append(m.Conversion, &Conversion{})
-			if err := m.Conversion[len(m.Conversion)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+			m.Conversation = append(m.Conversation, &Conversation{})
+			if err := m.Conversation[len(m.Conversation)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
@@ -1742,7 +1743,7 @@ func (m *ConversionListReply) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *Conversion) Unmarshal(dAtA []byte) error {
+func (m *Conversation) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -1765,10 +1766,10 @@ func (m *Conversion) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: Conversion: wiretype end group for non-group")
+			return fmt.Errorf("proto: Conversation: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: Conversion: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: Conversation: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:

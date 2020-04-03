@@ -9,8 +9,9 @@ package connect
 import (
 	"context"
 	"encoding/json"
-	"github.com/micro/go-micro/client"
 	"time"
+
+	"github.com/micro/go-micro/client"
 
 	"DailysServer/connect/conf"
 	models "DailysServer/logic/model"
@@ -79,7 +80,7 @@ func (server *Server) PushContact(id int64, notice []byte) {
 }
 
 func (server *Server) Operate(ctx context.Context, p *proto.Proto, ch *Channel) (err error) {
-
+	zlog.Debugf("doing Operate:%d", p.Opr)
 	switch p.Opr {
 	case proto.OpSendMsg:
 		var msg models.Message
@@ -94,7 +95,7 @@ func (server *Server) Operate(ctx context.Context, p *proto.Proto, ch *Channel) 
 			Content:     msg.Content,
 		})
 	case proto.OpConversion:
-		list, err := server.LogicClient().GetConversionList(ctx, &proto.ConversionListReq{
+		list, err := server.LogicClient().GetConversationList(ctx, &proto.ConversationListReq{
 			Uid: ch.Id,
 		})
 		if err != nil {

@@ -38,7 +38,7 @@ type LogicService interface {
 	SendMessage(ctx context.Context, in *MessageReq, opts ...client.CallOption) (*EmptyReply, error)
 	Connect(ctx context.Context, in *ConnectReq, opts ...client.CallOption) (*ConnectReply, error)
 	DisConnect(ctx context.Context, in *DisConnectReq, opts ...client.CallOption) (*DisConnectReply, error)
-	GetConversionList(ctx context.Context, in *ConversionListReq, opts ...client.CallOption) (*ConversionListReply, error)
+	GetConversationList(ctx context.Context, in *ConversationListReq, opts ...client.CallOption) (*ConversationListReply, error)
 }
 
 type logicService struct {
@@ -60,7 +60,7 @@ func NewLogicService(name string, c client.Client) LogicService {
 }
 
 func (c *logicService) SendMessage(ctx context.Context, in *MessageReq, opts ...client.CallOption) (*EmptyReply, error) {
-	req := c.c.NewRequest(c.name, "Logic.sendMessage", in)
+	req := c.c.NewRequest(c.name, "Logic.SendMessage", in)
 	out := new(EmptyReply)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -70,7 +70,7 @@ func (c *logicService) SendMessage(ctx context.Context, in *MessageReq, opts ...
 }
 
 func (c *logicService) Connect(ctx context.Context, in *ConnectReq, opts ...client.CallOption) (*ConnectReply, error) {
-	req := c.c.NewRequest(c.name, "Logic.connect", in)
+	req := c.c.NewRequest(c.name, "Logic.Connect", in)
 	out := new(ConnectReply)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -80,7 +80,7 @@ func (c *logicService) Connect(ctx context.Context, in *ConnectReq, opts ...clie
 }
 
 func (c *logicService) DisConnect(ctx context.Context, in *DisConnectReq, opts ...client.CallOption) (*DisConnectReply, error) {
-	req := c.c.NewRequest(c.name, "Logic.disConnect", in)
+	req := c.c.NewRequest(c.name, "Logic.DisConnect", in)
 	out := new(DisConnectReply)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -89,9 +89,9 @@ func (c *logicService) DisConnect(ctx context.Context, in *DisConnectReq, opts .
 	return out, nil
 }
 
-func (c *logicService) GetConversionList(ctx context.Context, in *ConversionListReq, opts ...client.CallOption) (*ConversionListReply, error) {
-	req := c.c.NewRequest(c.name, "Logic.GetConversionList", in)
-	out := new(ConversionListReply)
+func (c *logicService) GetConversationList(ctx context.Context, in *ConversationListReq, opts ...client.CallOption) (*ConversationListReply, error) {
+	req := c.c.NewRequest(c.name, "Logic.GetConversationList", in)
+	out := new(ConversationListReply)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -105,7 +105,7 @@ type LogicHandler interface {
 	SendMessage(context.Context, *MessageReq, *EmptyReply) error
 	Connect(context.Context, *ConnectReq, *ConnectReply) error
 	DisConnect(context.Context, *DisConnectReq, *DisConnectReply) error
-	GetConversionList(context.Context, *ConversionListReq, *ConversionListReply) error
+	GetConversationList(context.Context, *ConversationListReq, *ConversationListReply) error
 }
 
 func RegisterLogicHandler(s server.Server, hdlr LogicHandler, opts ...server.HandlerOption) error {
@@ -113,7 +113,7 @@ func RegisterLogicHandler(s server.Server, hdlr LogicHandler, opts ...server.Han
 		SendMessage(ctx context.Context, in *MessageReq, out *EmptyReply) error
 		Connect(ctx context.Context, in *ConnectReq, out *ConnectReply) error
 		DisConnect(ctx context.Context, in *DisConnectReq, out *DisConnectReply) error
-		GetConversionList(ctx context.Context, in *ConversionListReq, out *ConversionListReply) error
+		GetConversationList(ctx context.Context, in *ConversationListReq, out *ConversationListReply) error
 	}
 	type Logic struct {
 		logic
@@ -138,6 +138,6 @@ func (h *logicHandler) DisConnect(ctx context.Context, in *DisConnectReq, out *D
 	return h.LogicHandler.DisConnect(ctx, in, out)
 }
 
-func (h *logicHandler) GetConversionList(ctx context.Context, in *ConversionListReq, out *ConversionListReply) error {
-	return h.LogicHandler.GetConversionList(ctx, in, out)
+func (h *logicHandler) GetConversationList(ctx context.Context, in *ConversationListReq, out *ConversationListReply) error {
+	return h.LogicHandler.GetConversationList(ctx, in, out)
 }

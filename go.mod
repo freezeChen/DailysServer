@@ -9,6 +9,7 @@ require (
 
 	github.com/freezeChen/studio-library v0.0.17
 	github.com/garyburd/redigo v1.6.0
+	github.com/gin-gonic/gin v1.4.0
 	github.com/go-sql-driver/mysql v1.4.1
 
 	github.com/go-xorm/xorm v0.7.7

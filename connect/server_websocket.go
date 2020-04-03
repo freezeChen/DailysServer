@@ -11,7 +11,9 @@ import (
 	"DailysServer/pkg/timer"
 	"DailysServer/proto"
 
+	"github.com/freezeChen/studio-library/middle"
 	"github.com/freezeChen/studio-library/zlog"
+	"github.com/gin-gonic/gin"
 
 	"github.com/gorilla/websocket"
 )
@@ -27,15 +29,20 @@ var upGrader = websocket.Upgrader{
 }
 
 func InitWebSocket(srv *Server, addr string) {
-	http.HandleFunc("/socket", func(w http.ResponseWriter, r *http.Request) {
-		upGrade(srv, w, r)
+	engine := gin.Default()
+	engine.Any("/socket", func(c *gin.Context) {
+		upGrade(srv, c.Writer, c.Request)
 	})
-	http.HandleFunc("/ping", func(writer http.ResponseWriter, request *http.Request) {
-		fmt.Fprintln(writer, "hello")
+	engine.Use(middle.CORSMiddleware())
+//engine.
+
+	engine.POST("login", func(c *gin.Context) {
+		c.JSON(200, 1)
 	})
+
 	go func() {
-		if err := http.ListenAndServe(addr, nil); err != nil {
-			panic(err)
+		if err := engine.Run(addr); err != nil {
+			panic(engine)
 			return
 		}
 	}()

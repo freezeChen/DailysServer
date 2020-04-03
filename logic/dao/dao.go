@@ -53,9 +53,9 @@ func (d *Dao) GetContact(ownerId, otherId int64) *models.Contact {
 	return &item
 }
 
-func (d *Dao) GetContactList(uid int64) (list []*proto.Conversion, err error) {
-	list = make([]*proto.Conversion, 0)
-	err = d.db.SQL(`select c.other_uid,u.name as userName,c.mid,m.content,m.create_time as time from contact c 
+func (d *Dao) GetContactList(uid int64) (list []*proto.Conversation, err error) {
+	list = make([]*proto.Conversation, 0)
+	err = d.db.SQL(`select c.other_uid as uid,u.name as userName,c.mid,m.content,m.create_time as time from contact c 
 			join user u on c.other_uid = u.id
 			left join message m on c.mid =m.id
 			where c.owner_uid=?;`, uid).Find(&list)
