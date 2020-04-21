@@ -8,8 +8,11 @@ import (
 	fmt "fmt"
 	proto "github.com/gogo/protobuf/proto"
 	grpc "google.golang.org/grpc"
+	codes "google.golang.org/grpc/codes"
+	status "google.golang.org/grpc/status"
 	io "io"
 	math "math"
+	math_bits "math/bits"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -21,14 +24,11 @@ var _ = math.Inf
 // is compatible with the proto package it is being compiled against.
 // A compilation error at this line likely means your copy of the
 // proto package needs to be updated.
-const _ = proto.GoGoProtoPackageIsVersion2 // please upgrade the proto package
+const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
 type PushMessageReq struct {
-	Uid                  int64    `protobuf:"varint,1,opt,name=Uid,proto3" json:"Uid,omitempty"`
-	Content              string   `protobuf:"bytes,2,opt,name=Content,proto3" json:"Content,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
+	Uid     int64  `protobuf:"varint,1,opt,name=Uid,proto3" json:"Uid,omitempty"`
+	Content string `protobuf:"bytes,2,opt,name=Content,proto3" json:"Content,omitempty"`
 }
 
 func (m *PushMessageReq) Reset()         { *m = PushMessageReq{} }
@@ -45,7 +45,7 @@ func (m *PushMessageReq) XXX_Marshal(b []byte, deterministic bool) ([]byte, erro
 		return xxx_messageInfo_PushMessageReq.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
-		n, err := m.MarshalTo(b)
+		n, err := m.MarshalToSizedBuffer(b)
 		if err != nil {
 			return nil, err
 		}
@@ -79,11 +79,8 @@ func (m *PushMessageReq) GetContent() string {
 }
 
 type BatchMessageReq struct {
-	Uid                  []int64  `protobuf:"varint,1,rep,packed,name=uid,proto3" json:"uid,omitempty"`
-	Content              string   `protobuf:"bytes,2,opt,name=Content,proto3" json:"Content,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
+	Uid     []int64 `protobuf:"varint,1,rep,packed,name=uid,proto3" json:"uid,omitempty"`
+	Content string  `protobuf:"bytes,2,opt,name=Content,proto3" json:"Content,omitempty"`
 }
 
 func (m *BatchMessageReq) Reset()         { *m = BatchMessageReq{} }
@@ -100,7 +97,7 @@ func (m *BatchMessageReq) XXX_Marshal(b []byte, deterministic bool) ([]byte, err
 		return xxx_messageInfo_BatchMessageReq.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
-		n, err := m.MarshalTo(b)
+		n, err := m.MarshalToSizedBuffer(b)
 		if err != nil {
 			return nil, err
 		}
@@ -134,11 +131,8 @@ func (m *BatchMessageReq) GetContent() string {
 }
 
 type PushContactReq struct {
-	Uid                  int64    `protobuf:"varint,1,opt,name=uid,proto3" json:"uid,omitempty"`
-	Content              string   `protobuf:"bytes,2,opt,name=content,proto3" json:"content,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
+	Uid     int64  `protobuf:"varint,1,opt,name=uid,proto3" json:"uid,omitempty"`
+	Content string `protobuf:"bytes,2,opt,name=content,proto3" json:"content,omitempty"`
 }
 
 func (m *PushContactReq) Reset()         { *m = PushContactReq{} }
@@ -155,7 +149,7 @@ func (m *PushContactReq) XXX_Marshal(b []byte, deterministic bool) ([]byte, erro
 		return xxx_messageInfo_PushContactReq.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
-		n, err := m.MarshalTo(b)
+		n, err := m.MarshalToSizedBuffer(b)
 		if err != nil {
 			return nil, err
 		}
@@ -197,7 +191,7 @@ func init() {
 func init() { proto.RegisterFile("connect.proto", fileDescriptor_778b7e3040344da6) }
 
 var fileDescriptor_778b7e3040344da6 = []byte{
-	// 221 bytes of a gzipped FileDescriptorProto
+	// 234 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0xe2, 0x4d, 0xce, 0xcf, 0xcb,
 	0x4b, 0x4d, 0x2e, 0xd1, 0x2b, 0x28, 0xca, 0x2f, 0xc9, 0x17, 0x62, 0x05, 0x53, 0x52, 0xdc, 0x60,
 	0x0a, 0x22, 0xa6, 0x64, 0xc3, 0xc5, 0x17, 0x50, 0x5a, 0x9c, 0xe1, 0x9b, 0x5a, 0x5c, 0x9c, 0x98,
@@ -209,9 +203,10 @@ var fileDescriptor_778b7e3040344da6 = []byte{
 	0x96, 0x02, 0x79, 0x50, 0xc8, 0x9c, 0x8b, 0xbb, 0x00, 0xe1, 0x0d, 0x21, 0x51, 0x88, 0xef, 0xf4,
 	0x50, 0xbd, 0x26, 0x25, 0x08, 0x15, 0x76, 0xcd, 0x2d, 0x28, 0xa9, 0x0c, 0x4a, 0x2d, 0xc8, 0xa9,
 	0x14, 0xb2, 0xe4, 0xe2, 0x49, 0x42, 0xf2, 0x81, 0x90, 0x18, 0x54, 0x09, 0x9a, 0xb7, 0xb0, 0x69,
-	0x85, 0xda, 0x09, 0x75, 0x3d, 0x8a, 0x9d, 0x08, 0x1f, 0x61, 0xd1, 0xe8, 0xc4, 0x73, 0xe2, 0x91,
-	0x1c, 0xe3, 0x85, 0x47, 0x72, 0x8c, 0x0f, 0x1e, 0xc9, 0x31, 0x26, 0xb1, 0x81, 0xe5, 0x8d, 0x01,
-	0x01, 0x00, 0x00, 0xff, 0xff, 0xbb, 0x07, 0xfa, 0xa3, 0xad, 0x01, 0x00, 0x00,
+	0x85, 0xda, 0x09, 0x75, 0x3d, 0x8a, 0x9d, 0x08, 0x1f, 0x61, 0xd1, 0xe8, 0x24, 0x71, 0xe2, 0x91,
+	0x1c, 0xe3, 0x85, 0x47, 0x72, 0x8c, 0x0f, 0x1e, 0xc9, 0x31, 0x4e, 0x78, 0x2c, 0xc7, 0x70, 0xe1,
+	0xb1, 0x1c, 0xc3, 0x8d, 0xc7, 0x72, 0x0c, 0x49, 0x6c, 0x60, 0xb5, 0xc6, 0x80, 0x00, 0x00, 0x00,
+	0xff, 0xff, 0xe9, 0xbc, 0x4e, 0xd6, 0xb9, 0x01, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -271,6 +266,20 @@ type ConnectServer interface {
 	PushMessage(context.Context, *PushMessageReq) (*EmptyReply, error)
 	BatchMessage(context.Context, *BatchMessageReq) (*EmptyReply, error)
 	PushContact(context.Context, *PushContactReq) (*EmptyReply, error)
+}
+
+// UnimplementedConnectServer can be embedded to have forward compatible implementations.
+type UnimplementedConnectServer struct {
+}
+
+func (*UnimplementedConnectServer) PushMessage(ctx context.Context, req *PushMessageReq) (*EmptyReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PushMessage not implemented")
+}
+func (*UnimplementedConnectServer) BatchMessage(ctx context.Context, req *BatchMessageReq) (*EmptyReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method BatchMessage not implemented")
+}
+func (*UnimplementedConnectServer) PushContact(ctx context.Context, req *PushContactReq) (*EmptyReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PushContact not implemented")
 }
 
 func RegisterConnectServer(s *grpc.Server, srv ConnectServer) {
@@ -355,7 +364,7 @@ var _Connect_serviceDesc = grpc.ServiceDesc{
 func (m *PushMessageReq) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
-	n, err := m.MarshalTo(dAtA)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
 	if err != nil {
 		return nil, err
 	}
@@ -363,31 +372,34 @@ func (m *PushMessageReq) Marshal() (dAtA []byte, err error) {
 }
 
 func (m *PushMessageReq) MarshalTo(dAtA []byte) (int, error) {
-	var i int
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *PushMessageReq) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
 	_ = i
 	var l int
 	_ = l
-	if m.Uid != 0 {
-		dAtA[i] = 0x8
-		i++
-		i = encodeVarintConnect(dAtA, i, uint64(m.Uid))
-	}
 	if len(m.Content) > 0 {
-		dAtA[i] = 0x12
-		i++
+		i -= len(m.Content)
+		copy(dAtA[i:], m.Content)
 		i = encodeVarintConnect(dAtA, i, uint64(len(m.Content)))
-		i += copy(dAtA[i:], m.Content)
+		i--
+		dAtA[i] = 0x12
 	}
-	if m.XXX_unrecognized != nil {
-		i += copy(dAtA[i:], m.XXX_unrecognized)
+	if m.Uid != 0 {
+		i = encodeVarintConnect(dAtA, i, uint64(m.Uid))
+		i--
+		dAtA[i] = 0x8
 	}
-	return i, nil
+	return len(dAtA) - i, nil
 }
 
 func (m *BatchMessageReq) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
-	n, err := m.MarshalTo(dAtA)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
 	if err != nil {
 		return nil, err
 	}
@@ -395,10 +407,22 @@ func (m *BatchMessageReq) Marshal() (dAtA []byte, err error) {
 }
 
 func (m *BatchMessageReq) MarshalTo(dAtA []byte) (int, error) {
-	var i int
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *BatchMessageReq) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
 	_ = i
 	var l int
 	_ = l
+	if len(m.Content) > 0 {
+		i -= len(m.Content)
+		copy(dAtA[i:], m.Content)
+		i = encodeVarintConnect(dAtA, i, uint64(len(m.Content)))
+		i--
+		dAtA[i] = 0x12
+	}
 	if len(m.Uid) > 0 {
 		dAtA2 := make([]byte, len(m.Uid)*10)
 		var j1 int
@@ -412,27 +436,19 @@ func (m *BatchMessageReq) MarshalTo(dAtA []byte) (int, error) {
 			dAtA2[j1] = uint8(num)
 			j1++
 		}
-		dAtA[i] = 0xa
-		i++
+		i -= j1
+		copy(dAtA[i:], dAtA2[:j1])
 		i = encodeVarintConnect(dAtA, i, uint64(j1))
-		i += copy(dAtA[i:], dAtA2[:j1])
+		i--
+		dAtA[i] = 0xa
 	}
-	if len(m.Content) > 0 {
-		dAtA[i] = 0x12
-		i++
-		i = encodeVarintConnect(dAtA, i, uint64(len(m.Content)))
-		i += copy(dAtA[i:], m.Content)
-	}
-	if m.XXX_unrecognized != nil {
-		i += copy(dAtA[i:], m.XXX_unrecognized)
-	}
-	return i, nil
+	return len(dAtA) - i, nil
 }
 
 func (m *PushContactReq) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
-	n, err := m.MarshalTo(dAtA)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
 	if err != nil {
 		return nil, err
 	}
@@ -440,35 +456,40 @@ func (m *PushContactReq) Marshal() (dAtA []byte, err error) {
 }
 
 func (m *PushContactReq) MarshalTo(dAtA []byte) (int, error) {
-	var i int
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *PushContactReq) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
 	_ = i
 	var l int
 	_ = l
-	if m.Uid != 0 {
-		dAtA[i] = 0x8
-		i++
-		i = encodeVarintConnect(dAtA, i, uint64(m.Uid))
-	}
 	if len(m.Content) > 0 {
-		dAtA[i] = 0x12
-		i++
+		i -= len(m.Content)
+		copy(dAtA[i:], m.Content)
 		i = encodeVarintConnect(dAtA, i, uint64(len(m.Content)))
-		i += copy(dAtA[i:], m.Content)
+		i--
+		dAtA[i] = 0x12
 	}
-	if m.XXX_unrecognized != nil {
-		i += copy(dAtA[i:], m.XXX_unrecognized)
+	if m.Uid != 0 {
+		i = encodeVarintConnect(dAtA, i, uint64(m.Uid))
+		i--
+		dAtA[i] = 0x8
 	}
-	return i, nil
+	return len(dAtA) - i, nil
 }
 
 func encodeVarintConnect(dAtA []byte, offset int, v uint64) int {
+	offset -= sovConnect(v)
+	base := offset
 	for v >= 1<<7 {
 		dAtA[offset] = uint8(v&0x7f | 0x80)
 		v >>= 7
 		offset++
 	}
 	dAtA[offset] = uint8(v)
-	return offset + 1
+	return base
 }
 func (m *PushMessageReq) Size() (n int) {
 	if m == nil {
@@ -482,9 +503,6 @@ func (m *PushMessageReq) Size() (n int) {
 	l = len(m.Content)
 	if l > 0 {
 		n += 1 + l + sovConnect(uint64(l))
-	}
-	if m.XXX_unrecognized != nil {
-		n += len(m.XXX_unrecognized)
 	}
 	return n
 }
@@ -506,9 +524,6 @@ func (m *BatchMessageReq) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovConnect(uint64(l))
 	}
-	if m.XXX_unrecognized != nil {
-		n += len(m.XXX_unrecognized)
-	}
 	return n
 }
 
@@ -525,21 +540,11 @@ func (m *PushContactReq) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovConnect(uint64(l))
 	}
-	if m.XXX_unrecognized != nil {
-		n += len(m.XXX_unrecognized)
-	}
 	return n
 }
 
 func sovConnect(x uint64) (n int) {
-	for {
-		n++
-		x >>= 7
-		if x == 0 {
-			break
-		}
-	}
-	return n
+	return (math_bits.Len64(x|1) + 6) / 7
 }
 func sozConnect(x uint64) (n int) {
 	return sovConnect(uint64((x << 1) ^ uint64((int64(x) >> 63))))
@@ -639,7 +644,6 @@ func (m *PushMessageReq) Unmarshal(dAtA []byte) error {
 			if (iNdEx + skippy) > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.XXX_unrecognized = append(m.XXX_unrecognized, dAtA[iNdEx:iNdEx+skippy]...)
 			iNdEx += skippy
 		}
 	}
@@ -801,7 +805,6 @@ func (m *BatchMessageReq) Unmarshal(dAtA []byte) error {
 			if (iNdEx + skippy) > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.XXX_unrecognized = append(m.XXX_unrecognized, dAtA[iNdEx:iNdEx+skippy]...)
 			iNdEx += skippy
 		}
 	}
@@ -906,7 +909,6 @@ func (m *PushContactReq) Unmarshal(dAtA []byte) error {
 			if (iNdEx + skippy) > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.XXX_unrecognized = append(m.XXX_unrecognized, dAtA[iNdEx:iNdEx+skippy]...)
 			iNdEx += skippy
 		}
 	}
@@ -919,6 +921,7 @@ func (m *PushContactReq) Unmarshal(dAtA []byte) error {
 func skipConnect(dAtA []byte) (n int, err error) {
 	l := len(dAtA)
 	iNdEx := 0
+	depth := 0
 	for iNdEx < l {
 		var wire uint64
 		for shift := uint(0); ; shift += 7 {
@@ -950,10 +953,8 @@ func skipConnect(dAtA []byte) (n int, err error) {
 					break
 				}
 			}
-			return iNdEx, nil
 		case 1:
 			iNdEx += 8
-			return iNdEx, nil
 		case 2:
 			var length int
 			for shift := uint(0); ; shift += 7 {
@@ -974,55 +975,30 @@ func skipConnect(dAtA []byte) (n int, err error) {
 				return 0, ErrInvalidLengthConnect
 			}
 			iNdEx += length
-			if iNdEx < 0 {
-				return 0, ErrInvalidLengthConnect
-			}
-			return iNdEx, nil
 		case 3:
-			for {
-				var innerWire uint64
-				var start int = iNdEx
-				for shift := uint(0); ; shift += 7 {
-					if shift >= 64 {
-						return 0, ErrIntOverflowConnect
-					}
-					if iNdEx >= l {
-						return 0, io.ErrUnexpectedEOF
-					}
-					b := dAtA[iNdEx]
-					iNdEx++
-					innerWire |= (uint64(b) & 0x7F) << shift
-					if b < 0x80 {
-						break
-					}
-				}
-				innerWireType := int(innerWire & 0x7)
-				if innerWireType == 4 {
-					break
-				}
-				next, err := skipConnect(dAtA[start:])
-				if err != nil {
-					return 0, err
-				}
-				iNdEx = start + next
-				if iNdEx < 0 {
-					return 0, ErrInvalidLengthConnect
-				}
-			}
-			return iNdEx, nil
+			depth++
 		case 4:
-			return iNdEx, nil
+			if depth == 0 {
+				return 0, ErrUnexpectedEndOfGroupConnect
+			}
+			depth--
 		case 5:
 			iNdEx += 4
-			return iNdEx, nil
 		default:
 			return 0, fmt.Errorf("proto: illegal wireType %d", wireType)
 		}
+		if iNdEx < 0 {
+			return 0, ErrInvalidLengthConnect
+		}
+		if depth == 0 {
+			return iNdEx, nil
+		}
 	}
-	panic("unreachable")
+	return 0, io.ErrUnexpectedEOF
 }
 
 var (
-	ErrInvalidLengthConnect = fmt.Errorf("proto: negative length found during unmarshaling")
-	ErrIntOverflowConnect   = fmt.Errorf("proto: integer overflow")
+	ErrInvalidLengthConnect        = fmt.Errorf("proto: negative length found during unmarshaling")
+	ErrIntOverflowConnect          = fmt.Errorf("proto: integer overflow")
+	ErrUnexpectedEndOfGroupConnect = fmt.Errorf("proto: unexpected end of group")
 )

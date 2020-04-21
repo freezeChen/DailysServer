@@ -8,7 +8,7 @@ import (
 	"DailysServer/logic/service"
 	"DailysServer/proto"
 
-	"github.com/micro/go-micro"
+	"github.com/micro/go-micro/v2"
 )
 
 func New(c *conf.RpcServer) {

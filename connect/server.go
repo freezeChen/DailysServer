@@ -11,7 +11,7 @@ import (
 	"encoding/json"
 	"time"
 
-	"github.com/micro/go-micro/client"
+	"github.com/micro/go-micro/v2/client"
 
 	"DailysServer/connect/conf"
 	models "DailysServer/logic/model"

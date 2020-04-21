@@ -8,8 +8,8 @@ import (
 	"github.com/freezeChen/studio-library/redis"
 	"github.com/freezeChen/studio-library/util"
 	"github.com/freezeChen/studio-library/zlog"
-	"github.com/micro/go-micro/config"
-	"github.com/micro/go-micro/config/source/file"
+	"github.com/micro/go-micro/v2/config"
+	"github.com/micro/go-micro/v2/config/source/file"
 )
 
 var (
@@ -26,8 +26,11 @@ func init() {
 
 func Init() error {
 	conf = new(Config)
-	baseConfig := config.NewConfig(config.WithSource(file.NewSource(file.WithPath(fmt.Sprintf("%s/%s", util.GetCurrentDirectory(), fileName)))))
-	err := baseConfig.Scan(conf)
+	baseConfig, err := config.NewConfig(config.WithSource(file.NewSource(file.WithPath(fmt.Sprintf("%s/%s", util.GetCurrentDirectory(), fileName)))))
+	if err != nil {
+		return err
+	}
+	err = baseConfig.Scan(conf)
 	return err
 }
 

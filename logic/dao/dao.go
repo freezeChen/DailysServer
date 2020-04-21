@@ -12,7 +12,7 @@ import (
 	"github.com/freezeChen/studio-library/redis"
 	"github.com/freezeChen/studio-library/zlog"
 	redis2 "github.com/garyburd/redigo/redis"
-	"github.com/go-xorm/xorm"
+	"xorm.io/xorm"
 )
 
 const (
