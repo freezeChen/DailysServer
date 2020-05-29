@@ -30,6 +30,7 @@ var upGrader = websocket.Upgrader{
 
 func InitWebSocket(srv *Server, addr string) {
 	engine := gin.Default()
+	gin.SetMode(gin.ReleaseMode)
 	engine.Any("/socket", func(c *gin.Context) {
 		upGrade(srv, c.Writer, c.Request)
 	})

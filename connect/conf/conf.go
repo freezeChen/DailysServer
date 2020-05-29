@@ -24,8 +24,11 @@ func init() {
 
 func Init() error {
 	Conf = new(Config)
-	baseConfig := config.NewConfig(config.WithSource(file.NewSource(file.WithPath(fmt.Sprintf("%s/%s", util.GetCurrentDirectory(), fileName)))))
-	err := baseConfig.Scan(Conf)
+	baseConfig, err := config.NewConfig(config.WithSource(file.NewSource(file.WithPath(fmt.Sprintf("%s/%s", util.GetCurrentDirectory(), fileName)))))
+	if err != nil {
+		return err
+	}
+	err = baseConfig.Scan(Conf)
 	return err
 }
 
